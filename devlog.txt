@@ -17,6 +17,10 @@ pd 06
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 ==============================================================
 
+weinerJ -- 2019-05-09 00:13
+--------------------------------------------------------------
+Added requirements.txt file. Did not include any libraries yet as per the clearance-requirement outlined within the assignment and by Mr. Brown.
+
 weinerJ -- 2019-05-07 22:30
 --------------------------------------------------------------
 Create devlog.txt

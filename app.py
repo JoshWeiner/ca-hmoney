@@ -1,6 +1,5 @@
 
-from flask import Flask, render_template, session, request, url_for, redirect, \
-flash
+from flask import Flask, render_template, session, request, url_for, redirect, flash
 
 app = Flask(__name__)
 

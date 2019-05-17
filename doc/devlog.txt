@@ -17,13 +17,21 @@ pd 06
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 ==============================================================
 
-weinerJ -- 2019-05-09 00:13
+weinerJ, wanK -- 2019-05-09 00:13
 --------------------------------------------------------------
-Added requirements.txt file. Did not include any libraries yet as per the clearance-requirement outlined within the assignment and by Mr. Brown.
+J: Added requirements.txt file. Did not include any libraries yet
+as per the clearance-requirement outlined within the assignment
+and by Mr. Brown.
+
+K: started design doc
 
 weinerJ -- 2019-05-07 22:30
 --------------------------------------------------------------
 Create devlog.txt
+
+wanK -- 2019-05-07 22:30
+--------------------------------------------------------------
+created component map for design doc
 
 britniC -- 2019-05-15 12:30
 --------------------------------------------------------------

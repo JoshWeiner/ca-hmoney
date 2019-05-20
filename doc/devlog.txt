@@ -44,3 +44,14 @@ Droplet is functioning with dummy flask app, will drop in
 EduEngine next
 
 color choice: https://coolors.co/424874-dcd6f7-a6b1e1-cacfd6-d6e5e3
+
+
+britniC -- 2019-05-15 12:30
+--------------------------------------------------------------
+Beginning front-end development by creating home page, trying
+to make dummy posts to show how feed will look.
+
+britniC -- 2019-05-20 12:29
+--------------------------------------------------------------
+Continuing front end, trying to scale pictures to div that
+they are in. Will finish home page and move on soon.

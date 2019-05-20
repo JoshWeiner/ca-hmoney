@@ -36,12 +36,11 @@
 
       {% for post in feed %}
 
-      <div class = "post col-sm-3">
-        post
+      <div class = "post col-sm-3" style = "margin-right: 10%; margin-left:10%; margin-bottom:10%">
 
-        <h4> post['title'] </h4>
-        <img src = post['img']></img>
-        post['description']
+        <h4> {{post['title']}} </h4>
+        <img class = "img-responsive" src = {{post['img']}} style = "height: 10%"></img>
+        {{post['description']}}
 
       </div>
 

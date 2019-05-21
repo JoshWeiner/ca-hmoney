@@ -11,35 +11,40 @@
 </head>
 
 <body>
+  {% block header %}
+
   <div class = "row justify-content-center" style = "background-color: #a6b1e1">
 
-    <div><h2 style = "text-align:center"> EduEngine </h2></div><br>
+    <div><h2 style = "text-align:center"><a  style = "color:black" href = "/home"> EduEngine </a></h2></div><br>
 
-    <ul class="nav justify-content-center">
+    <ul class="nav justify-content-center align-items-center">
       <li class="nav-item">
-        <a class="nav-link active" href="#">Active</a>
+        <a class="nav-link" href="/projects">Projects By Category</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="/students">Students</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="/schools">Schools</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
-      </li>
+      <button class = "btn align-items-center" style = "height:25px">
+        Login
+      </button>
     </ul>
 
   </div>
+  {%endblock%}
+
+
   {% block body %}
-  <center>
-    THIS IS BODY
-    </center>
   {% endblock %}
-  <footer style="text-align:center;">
+
+  {% block footer%}
+  <footer style="text-align:center; position:sticky">
     <img src="{{url_for('static', filename='logo.png')}}" height="40" width="40">
     &copy;ca$hmoney 2019
   </footer>
+  {%endblock%}
 </body>
 
 </html>

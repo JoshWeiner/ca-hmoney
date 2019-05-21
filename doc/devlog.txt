@@ -64,3 +64,8 @@ they are in. Will finish home page and move on soon.
 wanK -- 2019-05-20 22:14
 --------------------------------------------------------------
 worked on parsing data from schools dataset found online
+
+britniC -- 2019-05-21 12:30
+--------------------------------------------------------------
+Created new pages, links to new pages work. Using jinja for page
+inheritance. Need to add search bars and make footer sticky.

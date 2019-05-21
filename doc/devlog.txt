@@ -51,7 +51,16 @@ britniC -- 2019-05-15 12:30
 Beginning front-end development by creating home page, trying
 to make dummy posts to show how feed will look.
 
+wanK, millarM -- 2019-05-20 12:20
+--------------------------------------------------------------
+finished framework for all databases.
+will review josh's tutorial and work on connections
+
 britniC -- 2019-05-20 12:29
 --------------------------------------------------------------
 Continuing front end, trying to scale pictures to div that
 they are in. Will finish home page and move on soon.
+
+wanK -- 2019-05-20 22:14
+--------------------------------------------------------------
+worked on parsing data from schools dataset found online

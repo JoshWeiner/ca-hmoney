@@ -3,16 +3,22 @@
 
 {%block body%}
 
-<div class = "row" id = "feed">
+<div class = "row justify-content-center" id = "feed">
 
   {% for post in feed %}
 
-  <div class = "post col-sm-3" style = "margin-right: 10%; margin-left:10%; margin-bottom:10%">
-
-    <h4> {{post['title']}} </h4>
-    <img class = "img-responsive" src = {{post['img']}} style = "height: 10%"></img>
-    {{post['description']}}
-
+  <div class = "card" style="width: 15rem; margin: 20px">
+    <img class = "card-img-top" src = {{post['img']}}></img>
+    <div class = "card-body">
+      <h4 class = "card-title"> {{post['title']}} </h4>
+      <h6 class="card-subtitle mb-2 text-muted">Doggo University</h6>
+      <h6 class="card-subtitle mb-2 text-muted">Britni Canale</h6>
+      <p class = "card-text">{{post['description']}}</p>
+      <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      <div class="progress">
+        <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"> $1,000,000</div>
+      </div>
+    </div>
   </div>
 
   {%endfor%}

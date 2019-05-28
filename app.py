@@ -1,0 +1,1 @@
+from cashmoney import app

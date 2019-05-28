@@ -69,3 +69,12 @@ britniC -- 2019-05-21 12:30
 --------------------------------------------------------------
 Created new pages, links to new pages work. Using jinja for page
 inheritance. Need to add search bars and make footer sticky.
+
+britniC -- 2019-05-23 12:33
+--------------------------------------------------------------
+Edited home page to put posts in Bootstrap cards. Added progress
+bars.
+
+britniC -- 2019-05-28 12:33
+--------------------------------------------------------------
+Creating page for individual projects. Will create route shortly.

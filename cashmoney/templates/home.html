@@ -3,16 +3,18 @@
 
 {%block body%}
 
-<div class = "row justify-content-center" id = "feed">
+<div class = "row justify-content-center" id = "feed" style = "margin-top:100px">
 
   {% for post in feed %}
 
-  <div class = "card" style="width: 15rem; margin: 20px">
+  <a href="/project" style = "color:black; text-decoration:none">
+
+  <div class = "card" style="width: 15rem; margin: 20px" >
     <img class = "card-img-top" src = {{post['img']}}></img>
     <div class = "card-body">
       <h4 class = "card-title"> {{post['title']}} </h4>
       <h6 class="card-subtitle mb-2 text-muted">Doggo University</h6>
-      <h6 class="card-subtitle mb-2 text-muted">Britni Canale</h6>
+      <h6 class="card-subtitle mb-2 text-muted">{{post['user']}}</h6>
       <p class = "card-text">{{post['description']}}</p>
       <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
       <div class="progress">
@@ -21,6 +23,7 @@
     </div>
   </div>
 
+</a>
   {%endfor%}
 
 </div>

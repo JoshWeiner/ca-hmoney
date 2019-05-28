@@ -16,6 +16,7 @@ for i in range(0,10):
     posts.append(project)
     print(posts)
 
+
 @app.route("/home")
 def hello():
     print ("hello there")

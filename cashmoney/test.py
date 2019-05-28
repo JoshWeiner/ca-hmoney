@@ -29,6 +29,16 @@ def pickschool():
     print('find the right school!')
     return render_template("schools.html")
 
+@app.route("/login")
+def poo():
+    print('login')
+    return render_template("login.html")
+
+@app.route("/authenticate", methods = ["POST", "GET"])
+def check():
+    print('this is checking pass and stuff')
+    return render_template('home.html', feed = projects)
+
 
 if __name__ == "__main__":
     app.debug = True

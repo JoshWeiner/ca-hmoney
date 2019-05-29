@@ -18,11 +18,43 @@ Our project is meant to be a cross between online networking and crowdfunding si
 - Account Creation
 - Project Proposal
 - Communication
-- 
+-
 
 
-### Dependancies
+### Dependencies
+
+
 
 
 ### Launch Instructions
+1. Clone this repo
+```
+$ git clone https://github.com/JoshWeiner/ca-hmoney
+```
 
+2. Activate your virtual environment
+```
+$ python3 -m venv venv
+$ . venv/bin/activate
+```
+
+3. Enter directory
+```
+$ cd ca-hmoney
+```
+
+4. Install the dependencies
+```
+$ pip install -r requirements.txt
+```
+
+5. Run app
+```
+$ python __init__.py
+```
+
+6. Open your web browser and open `localhost:5000`
+
+7. Use <kbd> CTRL </kbd> + <kbd> C </kbd> to terminate your session
+
+8. Type `deactivate` to deactivate your virtual environment

@@ -1,4 +1,4 @@
-import db
+from cashmoney import db
 
 class User(db.Model):
     __tablename__ = "user"
@@ -14,8 +14,8 @@ class User(db.Model):
     school = db.Column(db.Integer, db.ForeignKey('school.id'))
     pic = db.Column(db.Text())
     projects = db.relationship('Project')
-    reports_made = db.relationship('Report', foreign_keys=['reports.reporting_user'])
-    reports_against = db.relationship('Report', foreign_keys=['reports.reportee_id'])
+    # reports_made = db.relationship('Report', foreign_keys=['reports.reporting_user'])
+    # reports_against = db.relationship('Report', foreign_keys=['reports.reportee_id'])
     messages = db.relationship('Message')
     ##Lazy loading refers to objects are returned from a
     ##query without the related objects loaded at first.
@@ -50,18 +50,18 @@ class Transaction(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
-class Report(db.Model):
-    __tablename__ = "report"
-    ##This is the person reporting:
-    id = db.Column(db.Integer, primary_key=True)
-    reporting_user = db.Column(db.Integer, db.ForeignKey('user.id'))
-    description = db.Column(db.Text(), nullable=False)
-    project_id = db.Column(db.Integer, db.ForeignKey('project.id'))
-    #This is the person getting reported
-    reportee_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    # Report Number
-    report_id = db.Column(db.Integer, primary_key=True)
-    reportType = db.Column(db.Integer, nullable = False)
+# class Report(db.Model):
+#     __tablename__ = "report"
+#     ##This is the person reporting:
+#     id = db.Column(db.Integer, primary_key=True)
+#     reporting_user = db.Column(db.Integer, db.ForeignKey('user.id'))
+#     description = db.Column(db.Text(), nullable=False)
+#     project_id = db.Column(db.Integer, db.ForeignKey('project.id'))
+#     #This is the person getting reported
+#     reportee_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+#     # Report Number
+#     report_id = db.Column(db.Integer, primary_key=True)
+#     reportType = db.Column(db.Integer, nullable = False)
 
 
 class Message(db.Model):

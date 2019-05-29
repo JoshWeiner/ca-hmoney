@@ -78,3 +78,8 @@ bars.
 britniC -- 2019-05-28 12:33
 --------------------------------------------------------------
 Creating page for individual projects. Will create route shortly.
+
+britniC -- 2019-05-29 12:33
+--------------------------------------------------------------
+Added basic launch instructions, started to add queries to url
+to direct to individual project pages.

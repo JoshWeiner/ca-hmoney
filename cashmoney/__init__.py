@@ -8,18 +8,16 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-from cashmoney import models
+import models
 
 posts = []
-print(posts)
 for i in range(0,10):
-    print(i)
     project = {}
     project['title'] = "doggo ipsum"
     #project['img'] = "https://img.buzzfeed.com/buzzfeed-static/static/2017-03/21/7/asset/buzzfeed-prod-fastlane-02/sub-buzz-668-1490096330-22.jpg?downsize=700%3A%2A&output-quality=auto&output-format=auto"
     project['img'] = "https://cdn1.medicalnewstoday.com/content/images/articles/322/322868/golden-retriever-puppy.jpg"
     project['description'] = "Doggo ipsum he made many woofs shoob yapper, you are doing me a frighten. I am bekom fat blep doggo very taste wow boof, I am bekom fat waggy wags clouds ur givin me a spook porgo, heckin angery woofer doing me a frighten you are doin me a concern."
-    print(project)
+    project['id'] = i
     posts.append(project)
     print(posts)
 
@@ -28,6 +26,10 @@ for i in range(0,10):
 def hello():
     print ("hello there")
     return render_template("home.html", feed = posts)
+
+@app.route("/project")
+def project():
+    return render_template("project.html")
 
 @app.route("/projects")
 def projects():

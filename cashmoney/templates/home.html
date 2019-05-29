@@ -7,7 +7,7 @@
 
   {% for post in feed %}
 
-  <a href="/project" style = "color:black; text-decoration:none">
+  <a href="/project?id={{post['id']}}" style = "color:black; text-decoration:none">
 
   <div class = "card" style="width: 15rem; margin: 20px" >
     <img class = "card-img-top" src = {{post['img']}}></img>

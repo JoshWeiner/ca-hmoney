@@ -8,7 +8,7 @@ from jinja2 import TemplateNotFound
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
 from cashmoney import app, db
-from cashmoney.models import User
+from cashmoney.models import User, Project, Transaction, Message, School
 from functools import wraps
 from sqlalchemy import func
 import uuid

@@ -53,5 +53,3 @@ def students():
 @app.route("/schools")
 def schols():
     return render_template("schools.html")
-
-from cashmoney import routes, models

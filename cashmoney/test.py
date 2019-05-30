@@ -42,8 +42,3 @@ def makenewUser():
         print(request.form['email'])
         return redirect('/')
     return redirect('/')
-
-
-if __name__ == "__main__":
-    app.debug = True
-    app.run()

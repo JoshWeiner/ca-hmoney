@@ -83,3 +83,8 @@ britniC -- 2019-05-29 12:33
 --------------------------------------------------------------
 Added basic launch instructions, started to add queries to url
 to direct to individual project pages.
+
+britniC -- 2019-05-30 12:32
+--------------------------------------------------------------
+Tried to create new route had issue with refreshing page after
+edits, still trying to find out what's wrong.

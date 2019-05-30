@@ -30,17 +30,22 @@ for i in range(0,10):
     project['description'] = "Doggo ipsum he made many woofs shoob yapper, you are doing me a frighten. I am bekom fat blep doggo very taste wow boof, I am bekom fat waggy wags clouds ur givin me a spook porgo, heckin angery woofer doing me a frighten you are doin me a concern."
     project['id'] = i
     posts.append(project)
-    print(posts)
 
 
-@app.route("/home")
+
+@app.route("/home",  methods = ["GET"])
 def hello():
     print ("hello there")
     return render_template("home.html", feed = posts)
 
-@app.route("/project")
+@app.route("/project", methods = ["GET"])
 def project():
-    return render_template("project.html")
+    id = request.args["id"]
+    proj = {}
+    for post in posts:
+        if post['id'] == id:
+            proj = post
+    return render_template("project.html", proj = proj)
 
 @app.route("/projects")
 def projects():

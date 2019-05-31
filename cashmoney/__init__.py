@@ -1,10 +1,12 @@
+import sys
 from flask import Flask, current_app
 from threading import Thread
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask import current_app
 #from wtf_tinymce import wtf_tinymce
-import package.config
+#import setup
+#print(package.config)
 from time import sleep
 import datetime
 import os
@@ -18,9 +20,17 @@ from werkzeug.utils import secure_filename
 from functools import wraps
 from sqlalchemy import func
 import uuid
+from package.models import User
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+class Config(object):
+    # ...
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+        'sqlite:///' + os.path.join(basedir, 'app.db')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 app = Flask(__name__)
-app.config.from_object(package.config.Config)
+app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
@@ -31,6 +41,7 @@ route_code = str(uuid.uuid4())
 @app.shell_context_processor
 def make_shell_context():
     return {'db': db, 'User': User}
+
 
 posts = []
 for i in range(0,10):
@@ -67,5 +78,5 @@ def schols():
 
 
 if __name__ == "__main__":
-    app.debug = True
+    app.debug = False
     app.run()

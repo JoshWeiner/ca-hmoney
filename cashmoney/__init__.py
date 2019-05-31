@@ -20,7 +20,7 @@ from werkzeug.utils import secure_filename
 from functools import wraps
 from sqlalchemy import func
 import uuid
-from package.models import User
+#from package.models import User
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):

@@ -2,13 +2,24 @@
 {%block body%}
 <div style = "margin:100px">
   <h2> {{proj["title"]}} </h2>
-  <img src = {{proj['img']}}></img>
+  <div class = "col-xs-12 col-sm-8 col-md-6">
+    <img src = {{proj['img']}} style = "width:100%"></img>
+  </div>
   <p> {{proj["description"]}}</p>
-  <div class="progress">
+  <div class="progress" style = "height:25px">
     <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"> $1,000,000</div>
   </div>
+  <br>
   <button type="button" class="btn btn-primary">Communicate</button>
   <button type="button" class="btn btn-success">Contribute</button>
+<br><br>
+  <h4> Updates </h4>
+  {%for post in proj['posts']%}
+  <h6> {{post['title']}} </h6>
+  <p> {{post['body']}} </p>
+  <br>
+
+  {%endfor%}
   </div>
 
 {%endblock%}

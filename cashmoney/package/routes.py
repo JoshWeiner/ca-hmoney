@@ -1,15 +1,5 @@
-import sys
-from flask import Flask, current_app
-from threading import Thread
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-from flask import current_app
-#from wtf_tinymce import wtf_tinymce
-#import setup
-#print(package.config)
-from time import sleep
-import datetime
-import os
+# -*- coding: utf-8 -*-
+
 from datetime import datetime
 import urllib  # for urlopen, urlretrieve
 import os      # for chdir, makedirs, path.exists
@@ -17,31 +7,20 @@ from flask import render_template, flash, redirect, url_for, request, current_ap
 from jinja2 import TemplateNotFound
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
+from cashmoney import app, db
+from cashmoney.models import User, Project, Transaction, Message, School
 from functools import wraps
 from sqlalchemy import func
 import uuid
-from package.models import User
-basedir = os.path.abspath(os.path.dirname(__file__))
-
-class Config(object):
-    # ...
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'app.db')
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-
-app = Flask(__name__)
-app.config.from_object(Config)
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-
+from cashmoney import routes, models
 
 route_code = str(uuid.uuid4())
 # print(route_code)
 
+
 @app.shell_context_processor
 def make_shell_context():
     return {'db': db, 'User': User}
-
 
 posts = []
 for i in range(0,10):
@@ -52,17 +31,22 @@ for i in range(0,10):
     project['description'] = "Doggo ipsum he made many woofs shoob yapper, you are doing me a frighten. I am bekom fat blep doggo very taste wow boof, I am bekom fat waggy wags clouds ur givin me a spook porgo, heckin angery woofer doing me a frighten you are doin me a concern."
     project['id'] = i
     posts.append(project)
-    # print(posts)
 
 
-@app.route("/home")
+
+@app.route("/home",  methods = ["GET"])
 def hello():
     print ("hello there")
     return render_template("home.html", feed = posts)
 
-@app.route("/project")
+@app.route("/project", methods = ["GET"])
 def project():
-    return render_template("project.html")
+    id = request.args["id"]
+    proj = {}
+    for post in posts:
+        if post['id'] == id:
+            proj = post
+    return render_template("project.html", proj = proj)
 
 @app.route("/projects")
 def projects():
@@ -75,8 +59,3 @@ def students():
 @app.route("/schools")
 def schols():
     return render_template("schools.html")
-
-
-if __name__ == "__main__":
-    app.debug = False
-    app.run()

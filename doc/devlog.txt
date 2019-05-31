@@ -45,7 +45,46 @@ EduEngine next
 
 color choice: https://coolors.co/424874-dcd6f7-a6b1e1-cacfd6-d6e5e3
 
+
 britniC -- 2019-05-15 12:30
 --------------------------------------------------------------
 Beginning front-end development by creating home page, trying
 to make dummy posts to show how feed will look.
+
+wanK, millarM -- 2019-05-20 12:20
+--------------------------------------------------------------
+finished framework for all databases.
+will review josh's tutorial and work on connections
+
+britniC -- 2019-05-20 12:29
+--------------------------------------------------------------
+Continuing front end, trying to scale pictures to div that
+they are in. Will finish home page and move on soon.
+
+wanK -- 2019-05-20 22:14
+--------------------------------------------------------------
+worked on parsing data from schools dataset found online
+
+britniC -- 2019-05-21 12:30
+--------------------------------------------------------------
+Created new pages, links to new pages work. Using jinja for page
+inheritance. Need to add search bars and make footer sticky.
+
+britniC -- 2019-05-23 12:33
+--------------------------------------------------------------
+Edited home page to put posts in Bootstrap cards. Added progress
+bars.
+
+britniC -- 2019-05-28 12:33
+--------------------------------------------------------------
+Creating page for individual projects. Will create route shortly.
+
+britniC -- 2019-05-29 12:33
+--------------------------------------------------------------
+Added basic launch instructions, started to add queries to url
+to direct to individual project pages.
+
+britniC -- 2019-05-30 12:32
+--------------------------------------------------------------
+Tried to create new route had issue with refreshing page after
+edits, still trying to find out what's wrong.

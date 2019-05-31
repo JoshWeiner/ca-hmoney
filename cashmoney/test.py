@@ -50,7 +50,15 @@ def checkitout(email,pass):
     #   if userId['pass'] == pass:
     #       add in a session
     #       login == true?
-
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        pass = request.form['pass1']
+        fname = request.form['Fname']
+        lname = request.form['Lname']
+        id = uuid.uuid1()
+        user = User(id=id, username=username, email=email, password=pass, firstname=fname, lastname=lname)
+        return redirect('/')
     return redirect('/')
 
 

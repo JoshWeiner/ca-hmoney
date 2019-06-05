@@ -13,7 +13,7 @@ import os
 from datetime import datetime
 import urllib  # for urlopen, urlretrieve
 import os      # for chdir, makedirs, path.exists
-from flask import render_template, flash, redirect, url_for, request, current_app, abort, jsonify, request
+from flask import render_template, flash, redirect, url_for, request, current_app, abort, jsonify, request, session
 from jinja2 import TemplateNotFound
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
@@ -59,6 +59,10 @@ for i in range(0,10):
     # print(posts)
 
 
+@app.route('/')
+def tohome():
+    return redirect('/home')
+
 @app.route("/home")
 def hello():
     print ("hello there")
@@ -86,6 +90,57 @@ def students():
 def schols():
     return render_template("schools.html")
 
+@app.route("/signup")
+def poo():
+    print('signup')
+    #get list of school names
+    #get list of school ids
+    #jinja render a dropdown for users to select school
+    return render_template("signup.html")
+
+@app.route('/bigL')
+def gotologin():
+    return render_template("login.html")
+
+@app.route("/login")
+def checkitout(email,pass):
+    print('login')
+    email = request.form['email']
+    pass1 = request.form['pass1']
+    #check if email is in the database
+    #if email in database:
+    #   if userId['pass'] == pass:
+    #       get id from database
+    #       add id to session
+    #       login == true?
+    #    return redirect('/home')
+    return redirect('/home')
+
+@app.route("/sign", methods=["POST", "GET"])
+def makenewUser():
+    # Sign UP
+    print("making user!!")
+    if request.method == 'POST':
+        # if email in database:
+            #flash("you already have an account")
+            # redirect('/')
+        username = request.form['username']
+        email = request.form['email']
+        pass1 = request.form['pass1']
+        pass2 = request.form['pass2']
+        fname = request.form['Fname']
+        lname = request.form['Lname']
+        usert = request.form['usertype']
+        # school = request.form['school']
+        elif (pass1 != pass2):
+            flash("Passwords do not match.")
+            redirect('/home')
+        id = uuid.uuid1()
+        user = User(id=id, username=username, email=email, password=pass1, firstname=fname, lastname=lname, userType=usert, verified=False)
+        print(email)
+        session.['userid'] = id
+        return redirect('/home')
+    return redirect('/home')
 
 if __name__ == "__main__":
     app.debug = True

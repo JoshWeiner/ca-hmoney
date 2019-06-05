@@ -88,3 +88,7 @@ britniC -- 2019-05-31 12:32
 --------------------------------------------------------------
 Fixed individual project route. Creating display for update posts
 on individual projects.
+
+mmillarM -- 2019-06-05 12:16
+--------------------------------------------------------------
+added work on login and signup routes without databse access

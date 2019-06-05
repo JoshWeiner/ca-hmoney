@@ -101,3 +101,7 @@ Things to do:
 - picture uploading for profiles and projects
 - alerts?
 - donation
+
+mmillarM -- 2019-06-05 12:16
+--------------------------------------------------------------
+added work on login and signup routes without databse access

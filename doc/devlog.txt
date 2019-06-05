@@ -88,3 +88,16 @@ britniC -- 2019-05-31 12:32
 --------------------------------------------------------------
 Fixed individual project route. Creating display for update posts
 on individual projects.
+
+britniC -- 2019-05-31 12:32
+--------------------------------------------------------------
+Making more placeholders for databases when they are fully functional.
+Things to do:
+- Form for creating projects
+- Messaging integration
+- Form for Updates
+- Search functionality: keywords, category, dropdown
+- Student individual pages
+- picture uploading for profiles and projects
+- alerts?
+- donation

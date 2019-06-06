@@ -179,11 +179,11 @@ def poo():
 def gotologin():
     return render_template("login.html")
 
-@app.route("/processlogin", methods=["POST", "GET"])
+@app.route("/processlogin", methods=["POST"])
 def checkitout():
     print('login')
-    email = request.form['email']
-    pass1 = request.form['pass1']
+    email = request.form.get('email')
+    pass1 = request.form.get('pass')
     #check if email is in the database
     #if email in database:
     #   if userId['pass'] == pass:
@@ -191,9 +191,10 @@ def checkitout():
     #       add id to session
     #       login == true?
     #    return redirect('/home')
+    print(email)
     return redirect('/home')
 
-@app.route("/sign", methods=["POST", "GET"])
+@app.route("/sign", methods=["POST"])
 def makenewUser():
     # Sign UP
     print("making user!!")
@@ -201,21 +202,21 @@ def makenewUser():
         # if email in database:
             #flash("you already have an account")
             # redirect('/')
-        username = request.form['username']
-        email = request.form['email']
-        pass1 = request.form['pass1']
-        pass2 = request.form['pass2']
-        fname = request.form['Fname']
-        lname = request.form['Lname']
-        usert = request.form['usertype']
+        username = request.form.get('username')
+        email = request.form.get('email')
+        pass1 = request.form.get('pass1')
+        pass2 = request.form.get('pass2')
+        fname = request.form.get('Fname')
+        lname = request.form.get('Lname')
+        usert = request.form.get('usertype')
         # school = request.form['school']
         if (pass1 != pass2):
             flash("Passwords do not match.")
             redirect('/home')
         #You do not need to specfy ID, SQL automatically generates one
-        user = User(username=username, email=email, password=pass1, firstname=fname, lastname=lname, userType=usert, verified=False)
+        #user = User(username=username, email=email, password=pass1, firstname=fname, lastname=lname, userType=usert, verified=False)
         print(email)
-        session['userid'] = id
+        #session['userid'] = id
         return redirect('/home')
     return redirect('/home')
 

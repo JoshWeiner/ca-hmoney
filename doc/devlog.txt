@@ -110,4 +110,7 @@ mmillarM -- 2019-06-06 12:17
 --------------------------------------------------------------
 added routes for making projects as well as barebones html page for making projects
 
+mmillarM -- 2019-06-06 12:54
+--------------------------------------------------------------
+got the input working with post requests
 

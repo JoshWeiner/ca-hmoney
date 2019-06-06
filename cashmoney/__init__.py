@@ -175,12 +175,12 @@ def poo():
     #jinja render a dropdown for users to select school
     return render_template("signup.html")
 
-@app.route('/bigL')
+@app.route('/login')
 def gotologin():
     return render_template("login.html")
 
-@app.route("/login")
-def checkitout(email,pass):
+@app.route("/processlogin", methods=["POST", "GET"])
+def checkitout():
     print('login')
     email = request.form['email']
     pass1 = request.form['pass1']
@@ -209,15 +209,25 @@ def makenewUser():
         lname = request.form['Lname']
         usert = request.form['usertype']
         # school = request.form['school']
-        elif (pass1 != pass2):
+        if (pass1 != pass2):
             flash("Passwords do not match.")
             redirect('/home')
         #You do not need to specfy ID, SQL automatically generates one
         user = User(username=username, email=email, password=pass1, firstname=fname, lastname=lname, userType=usert, verified=False)
         print(email)
-        session.['userid'] = id
+        session['userid'] = id
         return redirect('/home')
     return redirect('/home')
+
+@app.route('/makeproject')
+def makeprojectpage():
+    return render_template("makeproject.html")
+
+@app.route('/processproject', methods=['POST', 'GET'])
+def processproject():
+    # get user input for project info
+    # add to database
+    return redirect('/')
 
 if __name__ == "__main__":
     app.debug = True

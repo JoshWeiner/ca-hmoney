@@ -105,3 +105,9 @@ Things to do:
 mmillarM -- 2019-06-05 12:16
 --------------------------------------------------------------
 added work on login and signup routes without databse access
+
+mmillarM -- 2019-06-06 12:17
+--------------------------------------------------------------
+added routes for making projects as well as barebones html page for making projects
+
+

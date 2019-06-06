@@ -7,7 +7,11 @@
   </div>
   <p> {{proj["description"]}}</p>
   <div class="progress" style = "height:25px">
-    <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"> $1,000,000</div>
+	      {% set size = "width: " + (proj['current_amount'] / proj['goal'])|string + "%" %}
+	      <div class="progress-bar bg-success" role="progressbar" style={{size}} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"> {{proj['current_amount']}} </div>
+	      <div style="color: black">
+      		{{proj['goal']}}
+	      </div>
   </div>
   <br>
   <button type="button" class="btn btn-primary">Communicate</button>

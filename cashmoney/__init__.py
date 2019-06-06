@@ -112,7 +112,7 @@ class School(db.Model):
     members = db.relationship('User')
 
 
-
+'''
 posts = []
 for i in range(0,10):
     project = {}
@@ -123,7 +123,7 @@ for i in range(0,10):
     project['id'] = i
     posts.append(project)
     # print(posts)
-
+'''
 
 users = []
 for i in range(0,5):
@@ -167,14 +167,10 @@ def hello():
 @app.route("/project", methods = ["GET"])
 def project():
     id = request.args["id"]
-    proj = {}
-    for post in posts:
-        if post["id"] == int(id):
-            proj = post
-    user = {}
-    for u in users:
-        if u['id'] == proj['userid']:
-            user = u
+    proj = db.session.query(Project).filter_by(id=id).first().__dict__
+    proj['img'] = "https://cdn1.medicalnewstoday.com/content/images/articles/322/322868/golden-retriever-puppy.jpg"
+    #user = db.session.query(User).filter_by(id=proj['user_id']).first().__dict__
+    user = proj['user_id']
     return render_template("project.html", proj = proj, user = user)
 
 @app.route("/projects")

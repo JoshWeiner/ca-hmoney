@@ -13,7 +13,7 @@ import os
 from datetime import datetime
 import urllib  # for urlopen, urlretrieve
 import os      # for chdir, makedirs, path.exists
-from flask import render_template, flash, redirect, url_for, request, current_app, abort, jsonify, request, session
+from flask import render_template, flash, redirect, url_for, request, current_app, abort, jsonify, request
 from jinja2 import TemplateNotFound
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
@@ -42,6 +42,75 @@ route_code = str(uuid.uuid4())
 def make_shell_context():
     return {'db': db, 'User': User}
 
+class User(db.Model):
+    __tablename__ = "user"
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    firstname = db.Column(db.String(80), nullable=False)
+    lastname = db.Column(db.String(80), nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(120))
+    userType = db.Column(db.Integer, nullable=False)
+    paypal = db.Column(db.String(250))
+    verified = db.Column(db.Boolean, nullable=False)
+    school = db.Column(db.Integer, db.ForeignKey('school.id'))
+    pic = db.Column(db.Text())
+    projects = db.relationship('Project')
+    # reports_made = db.relationship('Report', foreign_keys=['reports.reporting_user'])
+    # reports_against = db.relationship('Report', foreign_keys=['reports.reportee_id'])
+    messages = db.relationship('Message')
+    ##Lazy loading refers to objects are returned from a
+    ##query without the related objects loaded at first.
+
+    def __repr__(self):
+        return '<User %r>' % self.username
+
+class Project(db.Model):
+    __tablename__ = "project"
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(120), nullable=False)
+    description = db.Column(db.Text())
+    goal = db.Column(db.Float)
+    current_amount = db.Column(db.Float)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    school_id = db.Column(db.String(120), db.ForeignKey('school.id'))
+    transactions = db.relationship('Transaction')
+    # reports = db.relationship('Report')
+
+    def __repr__(self):
+        return '<Project %r>' % self.title
+
+
+class Transaction(db.Model):
+    __tablename__ = "transaction"
+    id = db.Column(db.Integer, primary_key=True)
+    donor_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    recipient_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'))
+    donation = db.Column(db.Float, nullable=False)
+    confirmed = db.Column(db.Boolean)
+
+    def __repr__(self):
+        return '<User %r>' % self.username
+
+class Message(db.Model):
+    __tablename__ = "message"
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    is_sender = db.Column(db.Boolean, nullable=False)
+    other_id = db.Column(db.Integer, nullable = False)
+    time = db.Column(db.DateTime, nullable = False)
+    body = db.Column(db.String(120), nullable=False)
+
+class School(db.Model):
+    __tablename__ = "school"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), nullable=False)
+    logo = db.Column(db.String(240), nullable=False)
+    color = db.Column(db.String(120), nullable=False)
+    members = db.relationship('User')
+
+
 
 posts = []
 for i in range(0,10):
@@ -51,13 +120,9 @@ for i in range(0,10):
     project['img'] = "https://cdn1.medicalnewstoday.com/content/images/articles/322/322868/golden-retriever-puppy.jpg"
     project['description'] = "Doggo ipsum he made many woofs shoob yapper, you are doing me a frighten. I am bekom fat blep doggo very taste wow boof, I am bekom fat waggy wags clouds ur givin me a spook porgo, heckin angery woofer doing me a frighten you are doin me a concern."
     project['id'] = i
-    project['userid'] = i % 5
-    project['posts'] = {}
-    for i in range(0, 5):
-        project['posts']['title'] = "Update Number " + str(i)
-        project['posts']['body'] = "doggo did a thing"
     posts.append(project)
     # print(posts)
+
 
 users = []
 for i in range(0,5):
@@ -147,8 +212,8 @@ def makenewUser():
         elif (pass1 != pass2):
             flash("Passwords do not match.")
             redirect('/home')
-        id = uuid.uuid1()
-        user = User(id=id, username=username, email=email, password=pass1, firstname=fname, lastname=lname, userType=usert, verified=False)
+        #You do not need to specfy ID, SQL automatically generates one
+        user = User(username=username, email=email, password=pass1, firstname=fname, lastname=lname, userType=usert, verified=False)
         print(email)
         session.['userid'] = id
         return redirect('/home')

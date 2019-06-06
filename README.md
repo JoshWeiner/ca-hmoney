@@ -50,7 +50,9 @@ $ pip install -r requirements.txt
 4. Run app
 ```
 $ python cashmoney/__init__.py
+```
 or
+```
 $ cd ./cashmoney
 $ python __init__.py
 ```

@@ -182,9 +182,22 @@ def gotologin():
 
 @app.route("/processlogin", methods=["POST"])
 def checkitout():
-    print('login')
-    email = request.form.get('email')
+    print('Running Log In Code...')
+    givenemail = request.form.get('email')
     pass1 = request.form.get('pass')
+    exists = db.session.query(User.id).filter_by(email=givenemail).scalar() is not None
+    if exists:
+        query = db.session.query(User.id).filter_by(email=givenemail, password=pass1).scalar() is not None
+        if query:
+            #session['userid'] = id
+            print('YOU ARE LOGGED IN!!!')
+        else:
+            flash('bad pass!')
+            return redirect('/login')
+    else:
+        flash('not registered!!')
+        return redirect('/signup')
+    #print(exists)
     #check if email is in the database
     #if email in database:
     #   if userId['pass'] == pass:
@@ -192,7 +205,6 @@ def checkitout():
     #       add id to session
     #       login == true?
     #    return redirect('/home')
-    print(email)
     return redirect('/home')
 
 @app.route("/sign", methods=["POST"])

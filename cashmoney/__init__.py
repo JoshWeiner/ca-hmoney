@@ -141,6 +141,27 @@ def tohome():
 @app.route("/home")
 def hello():
     print ("hello there")
+    i = 0
+    posts = []
+    for u in db.session.query(Project).all():
+        if i > 10:
+            break
+        posts.append(u.__dict__)
+        posts[i]['img'] = "https://cdn1.medicalnewstoday.com/content/images/articles/322/322868/golden-retriever-puppy.jpg"
+        i += 1
+    print(posts)
+    '''
+    posts = []
+    for i in range(0,10):
+        project = {}
+        project['title'] = "doggo ipsum"
+        #project['img'] = "https://img.buzzfeed.com/buzzfeed-static/static/2017-03/21/7/asset/buzzfeed-prod-fastlane-02/sub-buzz-668-1490096330-22.jpg?downsize=700%3A%2A&output-quality=auto&output-format=auto"
+        project['img'] = "https://cdn1.medicalnewstoday.com/content/images/articles/322/322868/golden-retriever-puppy.jpg"
+        project['description'] = "Doggo ipsum he made many woofs shoob yapper, you are doing me a frighten. I am bekom fat blep doggo very taste wow boof, I am bekom fat waggy wags clouds ur givin me a spook porgo, heckin angery woofer doing me a frighten you are doin me a concern."
+        project['id'] = i
+        posts.append(project)
+        #print(posts)
+        '''
     return render_template("home.html", feed = posts, users = users)
 
 @app.route("/project", methods = ["GET"])
@@ -249,8 +270,13 @@ def makeprojectpage():
 
 @app.route('/processproject', methods=['POST', 'GET'])
 def processproject():
-    # get user input for project info
-    # add to database
+    title = request.form.get('title')
+    description = request.form.get('description')
+    goal = request.form.get('goal')
+    #add userid and schoolid once sessions get back
+    project = Project(title=title, description=description, goal=goal, current_amount=0.0)
+    db.session.add(project)
+    db.session.commit()
     return redirect('/')
 
 if __name__ == "__main__":

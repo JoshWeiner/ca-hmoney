@@ -114,3 +114,7 @@ mmillarM -- 2019-06-06 12:54
 --------------------------------------------------------------
 got the input working with post requests
 
+mmillarM -- 2019-06-06 18:18
+--------------------------------------------------------------
+added actual posts to display on homepage
+also added post adding functionality with database

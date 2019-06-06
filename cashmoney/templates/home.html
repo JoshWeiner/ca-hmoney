@@ -30,7 +30,11 @@
       <p class = "card-text">{{post['description']}}</p>
       <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
       <div class="progress">
-        <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"> $1,000,000</div>
+	      {% set size = "width: " + (post['current_amount'] / post['goal'])|string + "%" %}
+	      <div class="progress-bar bg-success" role="progressbar" style={{size}} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"> {{post['current_amount']}} </div>
+	      <div style="color: black">
+      		{{post['goal']}}
+	      </div>
       </div>
     </div>
   </div>

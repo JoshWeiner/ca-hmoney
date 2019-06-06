@@ -214,6 +214,16 @@ def makenewUser():
         if (pass1 != pass2):
             flash("Passwords do not match.")
             redirect('/home')
+        else:
+            try:
+                user = User(username=username, email=email, password=pass1, firstname=fname, lastname=lname, userType=usert, verified=False)
+                db.session.add(user)
+                db.session.commit()
+            except:
+                flash("email already exists!")
+                print('did not work')
+                redirect('/home')
+
         #You do not need to specfy ID, SQL automatically generates one
         #user = User(username=username, email=email, password=pass1, firstname=fname, lastname=lname, userType=usert, verified=False)
         print(email)

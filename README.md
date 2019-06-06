@@ -47,13 +47,20 @@ $ . venv/bin/activate
 $ pip install -r requirements.txt
 ```
 
-4. Run app
+4. Enter the sub-directory cashmoney
 ```
-$ python cashmoney/__init__.py
+$ cd cashmoney
 ```
-or
+
+5. Initialize the database and migrations folder (where the log of changes to the database is stored)
 ```
-$ cd ./cashmoney
+$ flask db init
+$ flask db migrate -m "creating database"
+$ flasb db upgrade
+```
+
+6. Run app
+```
 $ python __init__.py
 ```
 

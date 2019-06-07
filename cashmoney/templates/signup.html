@@ -9,6 +9,15 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
   <title>For Finding School ID</title>
+  {% block header %}
+  <!--<div class = "row justify-content-center" style = "background-color: #B6D6CC">-->
+  <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+    <div>
+      <a href='/home'><img src="{{url_for('static', filename='minilogo.png')}}" height="40" width="40"></a>
+      EduEngine
+    </div>
+  </nav>
+  {%endblock%}
 </head>
 
 <body>
@@ -22,10 +31,6 @@
     </div>
     <img src="/static/logo.png" alt="logo" width="230">
     <br><br>
-    <div class="intro">
-      <h1 class="glow">Sign Up Below:</h1>
-    </div>
-    <br>
 
     <div class="row">
       <div class="col-sm-12">
@@ -37,15 +42,17 @@
       <div class="col-sm-12">
         <form action="/sign" method="POST">
           <div class="form-group mb-1">
-            <input type="text" name="email" class="form-control-md" placeholder="Email" required>
-          </div>
-          <div class="form-group mb-1">
-            <input type="text" name="username" class="form-control-md" placeholder="username" required>
+
             <select name="usertype">
               <option value=0>Student</option>
               <option value=1>Alumni</option>
             </select>
           </div>
+          <div class="form-group mb-1">
+            <input type="text" name="username" class="form-control-md" placeholder="Username" required>
+            <input type="text" name="email" class="form-control-md" placeholder="Email" required>
+          </div>
+
           <div class="form-group mb-1">
             <input type="text" name="Fname" class="form-control-md" placeholder="First Name" required>
             <input type="text" name="Lname" class="form-control-md" placeholder="Last Name" required>

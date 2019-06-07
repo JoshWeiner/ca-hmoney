@@ -6,7 +6,7 @@ from flask_migrate import Migrate
 from flask import current_app
 #from wtf_tinymce import wtf_tinymce
 #import setup
-#print(package.config)
+# print(package.config)
 from time import sleep
 import datetime
 import os
@@ -23,11 +23,13 @@ import uuid
 #from package.models import User
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+
 class Config(object):
     # ...
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -39,9 +41,11 @@ migrate = Migrate(app, db)
 route_code = str(uuid.uuid4())
 # print(route_code)
 
+
 @app.shell_context_processor
 def make_shell_context():
     return {'db': db, 'User': User}
+
 
 class User(db.Model):
     __tablename__ = "user"
@@ -60,10 +64,12 @@ class User(db.Model):
     # reports_made = db.relationship('Report', foreign_keys=['reports.reporting_user'])
     # reports_against = db.relationship('Report', foreign_keys=['reports.reportee_id'])
     messages = db.relationship('Message')
-    ##Lazy loading refers to objects are returned from a
-    ##query without the related objects loaded at first.
+    # Lazy loading refers to objects are returned from a
+    # query without the related objects loaded at first.
+
     def __repr__(self):
         return '<User %r>' % self.username
+
 
 class Project(db.Model):
     __tablename__ = "project"
@@ -91,14 +97,16 @@ class Transaction(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
+
 class Message(db.Model):
     __tablename__ = "message"
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     is_sender = db.Column(db.Boolean, nullable=False)
-    other_id = db.Column(db.Integer, nullable = False)
-    time = db.Column(db.DateTime, nullable = False)
+    other_id = db.Column(db.Integer, nullable=False)
+    time = db.Column(db.DateTime, nullable=False)
     body = db.Column(db.String(120), nullable=False)
+
 
 class School(db.Model):
     __tablename__ = "school"
@@ -123,21 +131,23 @@ for i in range(0,10):
 '''
 
 users = []
-for i in range(0,5):
+for i in range(0, 5):
     user = {}
     user['id'] = i
     user['name'] = "Doge Numero " + str(i)
     user['school'] = "Doggo University School of Boops"
     users.append(user)
 
+
 @app.route('/')
 def tohome():
     return redirect('/home')
 
+
 @app.route("/home")
 def hello():
     try:
-        print ("hello there, user number " + session['user_id'])
+        print("hello there, user number " + session['user_id'])
     except:
         print('hello there, user without identification')
     i = 0
@@ -149,35 +159,40 @@ def hello():
         posts[i]['img'] = "https://cdn1.medicalnewstoday.com/content/images/articles/322/322868/golden-retriever-puppy.jpg"
         i += 1
     print(posts)
-    return render_template("home.html", feed = posts, users = users)
+    return render_template("home.html", feed=posts, users=users)
 
-@app.route("/project", methods = ["GET"])
+
+@app.route("/project", methods=["GET"])
 def project():
     id = request.args["id"]
     proj = Project.query.filter_by(id=id).first()
     proj['img'] = "https://cdn1.medicalnewstoday.com/content/images/articles/322/322868/golden-retriever-puppy.jpg"
     #user = db.session.query(User).filter_by(id=proj['user_id']).first().__dict__
     user = proj['user_id']
-    return render_template("project.html", proj = proj, user = user)
+    return render_template("project.html", proj=proj, user=user)
+
 
 @app.route("/projects")
 def projects():
     return render_template("projects.html")
 
+
 @app.route("/students")
 def students():
     return render_template("students.html")
+
 
 @app.route("/schools")
 def schols():
     return render_template("schools.html")
 
+
 @app.route("/signup")
 def poo():
     print('signup')
-    #get list of school names
-    #get list of school ids
-    #jinja render a dropdown for users to select school
+    # get list of school names
+    # get list of school ids
+    # jinja render a dropdown for users to select school
     return render_template("signup.html")
 
 @app.route('/login', methods=["GET", "POST"])
@@ -250,20 +265,24 @@ def makenewUser():
         #session['userid'] = id
     return render_template("signup.html")
 
+
 @app.route('/makeproject')
 def makeprojectpage():
     return render_template("makeproject.html")
+
 
 @app.route('/processproject', methods=['POST', 'GET'])
 def processproject():
     title = request.form.get('title')
     description = request.form.get('description')
     goal = request.form.get('goal')
-    #add userid and schoolid once sessions get back
-    project = Project(title=title, description=description, goal=goal, current_amount=0.0)
+    # add userid and schoolid once sessions get back
+    project = Project(title=title, description=description,
+                      goal=goal, current_amount=0.0)
     db.session.add(project)
     db.session.commit()
     return redirect('/')
+
 
 @app.route('/user/<id>')
 def userpage(id):

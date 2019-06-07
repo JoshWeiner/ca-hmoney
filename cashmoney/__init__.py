@@ -383,7 +383,7 @@ def processproject():
     goal = request.form.get('goal')
     # add userid and schoolid once sessions get back
     project = Project(title=title, description=description,
-                      goal=goal, current_amount=0.0)
+                      goal=goal, current_amount=0.0, user_id=session['user_id'])
     db.session.add(project)
     db.session.commit()
     return redirect('/')

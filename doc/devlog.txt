@@ -75,6 +75,10 @@ britniC -- 2019-05-23 12:33
 Edited home page to put posts in Bootstrap cards. Added progress
 bars.
 
+wanK -- 2019-05-23 12:33
+--------------------------------------------------------------
+created signup.html and login.html
+
 britniC -- 2019-05-28 12:33
 --------------------------------------------------------------
 Creating page for individual projects. Will create route shortly.
@@ -83,6 +87,10 @@ britniC -- 2019-05-29 12:33
 --------------------------------------------------------------
 Added basic launch instructions, started to add queries to url
 to direct to individual project pages.
+
+wanK -- 2019-05-30 12:14
+--------------------------------------------------------------
+started to implement signing up
 
 britniC -- 2019-05-31 12:32
 --------------------------------------------------------------
@@ -102,9 +110,17 @@ Things to do:
 - alerts?
 - donation
 
+wanK -- 2019-06-03 01:10
+--------------------------------------------------------------
+Finishing up signups but can not get sessions to work
+
 mmillarM -- 2019-06-05 12:16
 --------------------------------------------------------------
 added work on login and signup routes without databse access
+
+wanK -- 2019-06-05 14:10
+--------------------------------------------------------------
+implemented database access for the log in and sign ups 
 
 mmillarM -- 2019-06-06 12:17
 --------------------------------------------------------------
@@ -118,3 +134,16 @@ mmillarM -- 2019-06-06 18:18
 --------------------------------------------------------------
 added actual posts to display on homepage
 also added post adding functionality with database
+
+
+wanK -- 2019-06-07 01:59
+--------------------------------------------------------------
+What did other team do?
+  Their instructions were seamless and was pretty easy to follow
+  besides the issues with the WSGIScriptAlias and the .conf file
+Were they successful?
+  Almost! There was just one snag that I could not get through.
+Can you explain errors, if any?
+  There was an issue with the conf file with the WSGIScriptAlias
+Who was other team?
+  Team Catastrophe

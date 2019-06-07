@@ -233,10 +233,6 @@ weinerJ -- 2019-06-07 04:45
 --------------------------------------------------------------
 Realized other team-members had not completed sessions, functional logins, functional registrations, and differentiation of pages based on login status, worked to refactor.
 
-weinerJ -- 2019-06-07 04:45
---------------------------------------------------------------
-Realized other team-members had not completed sessions, functional logins, functional registrations, and differentiation of pages based on login status, worked to refactor.
-
 weinerJ -- 2019-06-07 05:10
 --------------------------------------------------------------
 Finished refactoring of this code.

@@ -24,7 +24,6 @@ import uuid
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
-    SECRET_KEY = os.urandom(32)
     # ...
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'app.db')
@@ -32,6 +31,7 @@ class Config(object):
 
 app = Flask(__name__)
 app.config.from_object(Config)
+app.secret_key = os.urandom(32)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
@@ -62,7 +62,6 @@ class User(db.Model):
     messages = db.relationship('Message')
     ##Lazy loading refers to objects are returned from a
     ##query without the related objects loaded at first.
-
     def __repr__(self):
         return '<User %r>' % self.username
 
@@ -77,7 +76,6 @@ class Project(db.Model):
     school_id = db.Column(db.String(120), db.ForeignKey('school.id'))
     transactions = db.relationship('Transaction')
     # reports = db.relationship('Report')
-
     def __repr__(self):
         return '<Project %r>' % self.title
 
@@ -90,7 +88,6 @@ class Transaction(db.Model):
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'))
     donation = db.Column(db.Float, nullable=False)
     confirmed = db.Column(db.Boolean)
-
     def __repr__(self):
         return '<User %r>' % self.username
 
@@ -145,7 +142,7 @@ def hello():
         print('hello there, user without identification')
     i = 0
     posts = []
-    for u in db.session.query(Project).all():
+    for u in Project.query.all():
         if i > 10:
             break
         posts.append(u.__dict__)
@@ -157,7 +154,7 @@ def hello():
 @app.route("/project", methods = ["GET"])
 def project():
     id = request.args["id"]
-    proj = db.session.query(Project).filter_by(id=id).first().__dict__
+    proj = Project.query.filter_by(id=id).first()
     proj['img'] = "https://cdn1.medicalnewstoday.com/content/images/articles/322/322868/golden-retriever-puppy.jpg"
     #user = db.session.query(User).filter_by(id=proj['user_id']).first().__dict__
     user = proj['user_id']
@@ -183,76 +180,75 @@ def poo():
     #jinja render a dropdown for users to select school
     return render_template("signup.html")
 
-@app.route('/login')
-def gotologin():
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        givenemail = request.form.get('email')
+        username = request.form.get('email')
+        pass1 = request.form.get('pass')
+        exists = User.query.filter_by(email=givenemail).first()
+        # print(User.query.all())
+        if exists is not None:
+            if pass1 == exists.password:
+                session["user_id"] = exists.id
+                return redirect("/home")
+            else:
+                flash("Username or password is incorrect.")
+                return redirect("/login")
+        else:
+            exists = User.query.filter_by(username=username).first()
+            # print(exists)
+            if exists is not None:
+                if pass1 == exists.password:
+                    session["user_id"] = exists.id
+                    return redirect("/home")
+                else:
+                    flash("Username or password is incorrect.")
+                    return redirect("/login")
+            else:
+                flash("Username or password is incorrect.")
+                return redirect("/login")
     return render_template("login.html")
 
-@app.route("/processlogin", methods=["POST"])
-def checkitout():
-    print('Running Log In Code...')
-    givenemail = request.form.get('email')
-    pass1 = request.form.get('pass')
-    exists = db.session.query(User.id).filter_by(email=givenemail).scalar() is not None
-    if exists:
-        query = db.session.query(User.id).filter_by(email=givenemail, password=pass1).scalar()
-        if query is not None:
-            print(query)
-            session['userid'] = query
-            print('YOU ARE LOGGED IN!!!')
-        else:
-            flash('bad pass!')
-            return redirect('/login')
-    else:
-        flash('not registered!!')
-        return redirect('/signup')
-    #print(exists)
-    #check if email is in the database
-    #if email in database:
-    #   if userId['pass'] == pass:
-    #       get id from database
-    #       add id to session
-    #       login == true?
-    #    return redirect('/home')
-    return redirect('/home')
-
-@app.route("/sign", methods=["POST"])
+@app.route("/sign", methods=["GET", "POST"])
 def makenewUser():
     # Sign UP
-    print("making user!!")
+    # print("making user!!")
     if request.method == 'POST':
         # if email in database:
             #flash("you already have an account")
             # redirect('/')
-        username = request.form.get('username')
-        email = request.form.get('email')
-        pass1 = request.form.get('pass1')
-        pass2 = request.form.get('pass2')
-        fname = request.form.get('Fname')
-        lname = request.form.get('Lname')
-        usert = request.form.get('usertype')
+        username = str(request.form.get('username'))
+        email = str(request.form.get('email'))
+        pass1 = str(request.form.get('pass1'))
+        pass2 = str(request.form.get('pass2'))
+        fname = str(request.form.get('Fname'))
+        lname = str(request.form.get('Lname'))
+        usert = int(request.form.get('usertype'))
+        register_failed = False
         # school = request.form['school']
+        # print(User.query.filter_by(email=email).first())
         if (pass1 != pass2):
             flash("Passwords do not match.")
-            redirect('/home')
+            register_failed = True
+        if (User.query.filter_by(email=email).first() is not None):
+            flash("This email was already registered with another user.")
+            register_failed = True
+        if (User.query.filter_by(username=username).first() is not None):
+            flash("Username already taken")
+            register_failed = True
+        if (register_failed):
+            return redirect("/sign")
         else:
-            try:
-                user = User(username=username, email=email, password=pass1, firstname=fname, lastname=lname, userType=usert, verified=False)
-                db.session.add(user)
-                db.session.commit()
-                id = db.session.query(User.id).filter_by(email=email).first()[0]
-                print(id)
-                session['user_id'] = id
-            except:
-                flash("email already exists!")
-                print('did not work')
-                redirect('/home')
-
+            user = User(username=username, email=email, password=pass1, firstname=fname, lastname=lname, userType=usert, verified=False)
+            # pprint(user)
+            db.session.add(user)
+            db.session.commit()
+            return redirect("/login")
         #You do not need to specfy ID, SQL automatically generates one
         #user = User(username=username, email=email, password=pass1, firstname=fname, lastname=lname, userType=usert, verified=False)
-        print(email)
         #session['userid'] = id
-        return redirect('/home')
-    return redirect('/home')
+    return render_template("signup.html")
 
 @app.route('/makeproject')
 def makeprojectpage():
@@ -271,10 +267,10 @@ def processproject():
 
 @app.route('/user/<id>')
 def userpage(id):
-    user = db.session.query(User).filter_by(id=id).first().__dict__
+    user = User.query.filter_by(id=id).first()
     i = 0
     posts = []
-    for u in db.session.query(Project).all():
+    for u in Project.query.all():
         if i > 10:
             break
         posts.append(u.__dict__)
@@ -282,6 +278,50 @@ def userpage(id):
         i += 1
     print(posts)
     return render_template('user.html', user=user, posts=posts)
+
+@app.route('/chat', methods=['POST', 'GET'])
+def chat():
+    messages = Message.query.all()
+    users_with_chat = []
+    all_users = User.query.all()
+    for message in messages:
+        if message.user_id == session['user_id']:
+            u = User.query.filter_by(id=message.other_id).first()
+            if u not in users_with_chat:
+                users_with_chat.append(u)
+        if message.other_id == session['user_id']:
+            u = User.query.filter_by(id=message.user_id).first()
+            if u not in users_with_chat:
+                users_with_chat.append(u)
+    # print(session)
+    u = User.query.filter_by(id=session['user_id']).first()
+    return render_template('chat_users.html', u=u, users=users_with_chat, all_users=all_users)
+
+@app.route("/get_user_by_id", methods = ["POST"])
+def get_user_by_id():
+    this = request.form['query_id']
+    # print(this)
+    user = User.query.filter_by(id=this).first()
+    # print(user)
+    return jsonify({
+        "id": user.id,
+        "username" : user.username,
+        "firstname": user.firstname,
+        "lastname": user.lastname
+    })
+
+@app.route("/send_message", methods=["POST"])
+def send_message():
+    to_id = request.form['to_id']
+    from_id = request.form['from_id']
+    msg = request.form['rawText']
+    is_sender = True
+    if to_id != session["user_id"]:
+        is_sender = False
+    m = Message(user_id=from_id, is_sender=is_sender, other_id=to_id, time=datetime.now(), body=msg)
+    db.session.add(m)
+    db.session.commit()
+    return "True"
 
 if __name__ == "__main__":
     app.debug = True

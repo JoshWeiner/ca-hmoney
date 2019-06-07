@@ -394,21 +394,33 @@ def userpage(id):
 
 @app.route('/chat', methods=['POST', 'GET'])
 def chat():
-    messages = Message.query.all()
-    users_with_chat = []
-    all_users = User.query.all()
-    for message in messages:
-        if message.user_id == session['user_id']:
-            u = User.query.filter_by(id=message.other_id).first()
-            if u not in users_with_chat:
-                users_with_chat.append(u)
-        if message.other_id == session['user_id']:
-            u = User.query.filter_by(id=message.user_id).first()
-            if u not in users_with_chat:
-                users_with_chat.append(u)
-    # print(session)
-    u = User.query.filter_by(id=session['user_id']).first()
-    return render_template('chat_users.html', u=u, users=users_with_chat, all_users=all_users)
+    loggedin = False
+    try:
+        if session['user_id'] is None:
+            loggedin = False
+        elif (session['user_id'] is not None and session['user_id'] is not 0):
+            loggedin = True
+    except:
+        loggedin =False
+    if not loggedin:
+        flash("You must be logged in to access this page!")
+        return redirect("/login")
+    else:
+        messages = Message.query.all()
+        users_with_chat = []
+        all_users = User.query.all()
+        for message in messages:
+            if message.user_id == session['user_id']:
+                u = User.query.filter_by(id=message.other_id).first()
+                if u not in users_with_chat:
+                    users_with_chat.append(u)
+            if message.other_id == session['user_id']:
+                u = User.query.filter_by(id=message.user_id).first()
+                if u not in users_with_chat:
+                    users_with_chat.append(u)
+        # print(session)
+        u = User.query.filter_by(id=session['user_id']).first()
+        return render_template('chat_users.html', u=u, users=users_with_chat, all_users=all_users, loggedin=loggedin)
 
 @app.route("/get_user_by_id", methods = ["POST"])
 def get_user_by_id():
@@ -435,6 +447,31 @@ def send_message():
     db.session.add(m)
     db.session.commit()
     return "True"
+
+@app.route("/retrieve_messages", methods=["POST"])
+def retrieve_messages():
+    to_id = request.form.get('to_id')
+    from_id = request.form.get('from_id')
+    msgs = Message.query.filter_by(user_id = from_id, other_id=to_id).all()
+    newmsgs = Message.query.filter_by(user_id = to_id, other_id=from_id).all();
+    for m in newmsgs:
+        if m not in msgs:
+            msgs.append(m)
+    # msgs.sort(key lambda x: x.id)
+    msgs = sorted(msgs, key=lambda x:x.id)
+    # print(msgs)
+    b = []
+    for m in msgs:
+        # print(m, m.id)
+        if m is not None:
+            a = {
+                "from_id" : m.user_id,
+                "to_id" : m.other_id,
+                "body" : m.body
+            }
+            b.append(a)
+    return jsonify({
+        'messages' : b})
 
 if __name__ == "__main__":
     app.debug = True

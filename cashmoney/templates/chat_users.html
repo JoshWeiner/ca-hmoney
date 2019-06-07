@@ -145,4 +145,14 @@
 </div>
 <script src="{{url_for('static', filename='js/namefilter.js')}}"></script>
 <script src="{{url_for('static', filename='js/chat.js')}}"></script>
+
+<script>
+    {% for user in users %}
+
+    window.onload = setInterval (refresh_messages, 4000, {{user.id}}, {{u.id}});
+
+    {% endfor %}
+
+</script>
+
 {% endblock %}

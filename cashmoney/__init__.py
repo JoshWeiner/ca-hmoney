@@ -200,7 +200,7 @@ def checkitout():
             session['userid'] = query
             print('YOU ARE LOGGED IN!!!')
         else:
-            flash('bad pass!')
+            flash('Your password is incorrect. Please try again!')
             return redirect('/login')
     else:
         flash('not registered!!')
@@ -213,6 +213,7 @@ def checkitout():
     #       add id to session
     #       login == true?
     #    return redirect('/home')
+    flash("sucessfully signed in.")
     return redirect('/home')
 
 @app.route("/sign", methods=["POST"])

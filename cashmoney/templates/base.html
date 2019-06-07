@@ -15,9 +15,12 @@
 
   <div class = "row justify-content-center" style = "background-color: #a6b1e1">
 
-    <div><h2 style = "text-align:center"><a  style = "color:black" href = "/home"> EduEngine </a></h2></div><br>
-
     <ul class="nav justify-content-center align-items-center">
+      <a href = '/home'><img src="{{url_for('static', filename='minilogo.png')}}" height="40" width="40"></a>
+
+      <li class="nav-item">
+        <a  style = "color:black" href = "/home"> EduEngine </a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" href="/projects">Projects By Category</a>
       </li>
@@ -29,6 +32,9 @@
       </li>
       <button class = "btn-sm align-items-center">
         <a class="nav-link" href="/login">Login</a>
+      </button>
+      <button class = "btn-sm align-items-center">
+        <a class="nav-link" href="/signup">Sign Up</a>
       </button>
     </ul>
 
@@ -50,7 +56,7 @@
 
   {% block footer%}
   <footer class = "position-sticky" style="text-align:center; position:fixed">
-    <img src="{{url_for('static', filename='logo.png')}}" height="40" width="40">
+    <img src="{{url_for('static', filename='minilogo.png')}}" height="40" width="40">
     &copy;ca$hmoney 2019
   </footer>
   {%endblock%}

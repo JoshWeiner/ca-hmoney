@@ -272,6 +272,8 @@ def processproject():
 @app.route('/user/<id>')
 def userpage(id):
     user = db.session.query(User).filter_by(id=id).first().__dict__
+    i = 0
+    posts = []
     for u in db.session.query(Project).all():
         if i > 10:
             break

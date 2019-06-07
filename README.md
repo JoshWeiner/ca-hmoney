@@ -1,6 +1,8 @@
 # Team ca-hmoney
 It's actually ca$hmoney.
 
+[Watch our video demo here](https://www.youtube.com/watch?v=DXUAyRRkI6k)
+
 ---
 
 **Project Manager:** Joshua Weiner
@@ -18,15 +20,24 @@ Our project is meant to be a cross between online networking and crowdfunding si
 - Account Creation
 - Project Proposal
 - Communication
--
+- Chat Functionality
 
+### Necessary packages
 
-### Dependencies
+SQLAlchemey 
 
-
-
+```
+pip3 instal sqlalchemy
+```
 
 ### Launch Instructions
+
+---
+
+Install and run on localhost
+
+---
+
 0. Clone this repo
 ```
 $ git clone https://github.com/JoshWeiner/ca-hmoney
@@ -69,3 +80,50 @@ $ python __init__.py
 7. Use <kbd> CTRL </kbd> + <kbd> C </kbd> to terminate your session in the terminal
 
 8. Type `deactivate` to deactivate your virtual environment
+
+---
+
+Install and run on Apache2
+
+---
+
+
+0. Ensure you have a working droplet that you have sudo access to.
+
+1. Make sure the droplet is running in ubuntu v18.04 x64
+
+2. Install apache2
+
+```
+ $ sudo apt install apache2
+ ```
+ 
+3. Clone this repository into your root directory
+
+```
+$ git clone https://github.com/JoshWeiner/ca-hmoney.git
+```
+
+4. Installing pip3 dependencies
+
+```
+$ sudo pip3 install -r cashmoney/requirements.txt
+```
+
+5. Move the project folder into /var/www
+
+```
+$ sudo mv cashmoney /var/www/cashmoney
+```
+
+6. Input your droplet IP in the .conf file where it says server adress
+
+7. Put the .conf file in /etc/apache2/sites-available
+
+8. Enable apache2 and wsgi module
+
+9. Reload and restart apache2
+```
+$ sudo service apache2 reload
+$ sudo service apache2 restart
+```

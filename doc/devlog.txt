@@ -38,6 +38,12 @@ britniC -- 2019-05-15 12:30
 Restarted droplet, downloaded Apache, trying to drop in a
 dummy flask app.
 
+weinerJ -- 2019-05-15 12:45
+--------------------------------------------------------------
+Finished flask-sqlalchemy and flask-migrate tutorial
+published on QAF
+https://groups.google.com/a/stuy.edu/forum/#!searchin/softdev18-19/sqlalchemy%7Csort:date/softdev18-19/neNimCauaRs/Rii9iolVBAAJ
+
 britniC -- 2019-05-16 14:06
 --------------------------------------------------------------
 Droplet is functioning with dummy flask app, will drop in
@@ -46,15 +52,25 @@ EduEngine next
 color choice: https://coolors.co/424874-dcd6f7-a6b1e1-cacfd6-d6e5e3
 
 
-britniC -- 2019-05-15 12:30
+britniC -- 2019-05-16 12:30
 --------------------------------------------------------------
 Beginning front-end development by creating home page, trying
 to make dummy posts to show how feed will look.
+
+weinerJ -- 2019-05-17 13:40
+--------------------------------------------------------------
+Began deployment of app on server
+Changed file structure of app to be in compliance with Apache2 server needs
 
 wanK, millarM -- 2019-05-20 12:20
 --------------------------------------------------------------
 finished framework for all databases.
 will review josh's tutorial and work on connections
+
+weinerJ -- 2019-05-30 12:25
+--------------------------------------------------------------
+Server running into serious issues with structure of the app
+Cannot run 'flask run' on the server unlike NGINX
 
 britniC -- 2019-05-20 12:29
 --------------------------------------------------------------
@@ -70,6 +86,12 @@ britniC -- 2019-05-21 12:30
 Created new pages, links to new pages work. Using jinja for page
 inheritance. Need to add search bars and make footer sticky.
 
+weinerJ -- 2019-05-22 12:00
+--------------------------------------------------------------
+Spent time in class reviewing sqlalchemy launch instructions with my team, helping them get their repositories in compliance
+Also worked on debugging specific sqlalchemy errors
+Ran into issue of using flask run vs python __init__.py in terms of circular imports and flask packaging the needed dependencies
+
 britniC -- 2019-05-23 12:33
 --------------------------------------------------------------
 Edited home page to put posts in Bootstrap cards. Added progress
@@ -78,6 +100,16 @@ bars.
 wanK -- 2019-05-23 12:33
 --------------------------------------------------------------
 created signup.html and login.html
+
+weinerJ -- 2019-05-24 12:00
+--------------------------------------------------------------
+Still struggling with running server on droplet.
+Colsulted with Mr. Brown, and will try the following steps:
+- Moving routes.py and models.py to a subfolder/package
+- Moving config.py into the same directory as __init__.py
+- Moving all of the above into one file: __init__.py
+Will be testing all locally and on the production server
+Meanwhile, oversee each team-member's individual assignments.
 
 britniC -- 2019-05-28 12:33
 --------------------------------------------------------------
@@ -91,6 +123,12 @@ to direct to individual project pages.
 wanK -- 2019-05-30 12:14
 --------------------------------------------------------------
 started to implement signing up
+
+weinerJ -- 2019-05-31 9:00
+--------------------------------------------------------------
+Changes that worked to run app on production server:
+Moving config, routes, and models all into the same file
+Still encountering issues with the importation of dependencies and packages in the same directory as __init__.py
 
 britniC -- 2019-05-31 12:32
 --------------------------------------------------------------
@@ -110,6 +148,16 @@ Things to do:
 - alerts?
 - donation
 
+weinerJ -- 2019-05-31 12:40
+--------------------------------------------------------------
+Fixed dependency issue by re-installing virtual-environment, then removing the __pycache__ folder, then re-downloading the dependencies using pip3.
+Updated requirements.txt accordingly
+Tested locally, works there too.
+This issue really hampered the ability of our team to interact with the database and therefore hindered the development of our project greatly.
+There was a still-unclear issue with circular imports, as models tried to import the app's database as initialized in __init__.py, __init__.py was likewise importing the classes from the models file.
+Numerous StackOverflow and even Flask-documentation suggestions did not resolve this error.
+We needed to use the flask -- commands as bundlers for flask-migrate and sqlalchemy, but we could only run the python script on the apache2 server. This threw off when and where to use absolute versus relative imports, we needed but could not have both. Fixed this by moving everything into __init__.py, and adding an app.py file which imports the Flask app initialized in __init__.py, so that both 'flask --' and 'python --' commands might work.
+
 wanK -- 2019-06-03 01:10
 --------------------------------------------------------------
 Finishing up signups but can not get sessions to work
@@ -122,9 +170,22 @@ wanK -- 2019-06-05 14:10
 --------------------------------------------------------------
 implemented database access for the log in and sign ups 
 
+weinerJ -- 2019-06-05 16:00
+--------------------------------------------------------------
+Began work on chat functionality: users can chat with other users
+
+weinerJ -- 2019-06-05 17:40
+--------------------------------------------------------------
+Check in with team on assigned roles for the day, hand out some more for those wanting new roles. Sporadic communication from some team members reduces the effectiveness of these check-ins.
+Finished javascript handling of creating new user conversations in the same page
+
 mmillarM -- 2019-06-06 12:17
 --------------------------------------------------------------
 added routes for making projects as well as barebones html page for making projects
+
+weinerJ -- 2019-06-05 12:35
+--------------------------------------------------------------
+Began working on AJAX requests to add new messages to the database
 
 mmillarM -- 2019-06-06 12:54
 --------------------------------------------------------------
@@ -135,6 +196,9 @@ mmillarM -- 2019-06-06 18:18
 added actual posts to display on homepage
 also added post adding functionality with database
 
+weinerJ -- 2019-06-06 22:35
+--------------------------------------------------------------
+Hit a big snare with JINJA loops for chat windows, turns out CDN statements were out of date for the Bootstrap components used, which fixed a big error with chat windows not appearing nor chat messages being added to said windows.
 
 wanK -- 2019-06-07 01:59
 --------------------------------------------------------------
@@ -147,3 +211,37 @@ Can you explain errors, if any?
   There was an issue with the conf file with the WSGIScriptAlias
 Who was other team?
   Team Catastrophe
+  
+  
+weinerJ -- 2019-06-07 02:35
+--------------------------------------------------------------
+Finished AJAX post requests, server-side handling of new messages and creation of new conversations
+Custom-built from scratch the chat interface
+
+
+weinerJ -- 2019-06-07 03:20
+--------------------------------------------------------------
+Finished adding new chats and keeping pre-existing chats in the chat window
+
+
+weinerJ -- 2019-06-07 04:15
+--------------------------------------------------------------
+Keep chat histories in the chat windows using JavaScript calls. Can send new messages live and distinguish between sender and reciever.
+Still need to work on fetching new messages
+
+weinerJ -- 2019-06-07 04:45
+--------------------------------------------------------------
+Realized other team-members had not completed sessions, functional logins, functional registrations, and differentiation of pages based on login status, worked to refactor.
+
+weinerJ -- 2019-06-07 05:10
+--------------------------------------------------------------
+Finished refactoring of this code.
+Now pushing to server and debugging from there to make sure website is navigable and functional from our domain.
+Will not have time to write force-push messaging. Need to reload the window to do this, unfortunately
+
+weinerJ -- 2019-06-07 05:45
+--------------------------------------------------------------
+Deployed on production server
+Had to fix read-only database error, sudo chmod worked
+Had to re-install database and migrations folder server-side
+Project very much incomplete

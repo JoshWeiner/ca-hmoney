@@ -24,10 +24,14 @@ Our project is meant to be a cross between online networking and crowdfunding si
 
 ### Necessary packages
 
-SQLAlchemey 
+Flask-SQLAlchemey, Flask-Migrate
 
 ```
 pip3 instal sqlalchemy
+pip3 instal flask-sqlalchemy
+pip3 instal migrate
+pip3 instal flask-migrate
+
 ```
 
 ### Launch Instructions
@@ -118,7 +122,7 @@ $ sudo mv cashmoney /var/www/cashmoney
 
 6. Input your droplet IP in the .conf file where it says server adress
 
-7. Put the .conf file in /etc/apache2/sites-available
+7. Put the given .conf file in /etc/apache2/sites-available
 
 8. Enable apache2 and wsgi module
 

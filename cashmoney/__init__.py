@@ -373,7 +373,7 @@ def makeprojectpage():
         flash("You must be logged in to access this page!")
         return redirect("/login")
     else:
-        return render_template("makeproject.html")
+        return render_template('makeproject.html', loggedin=loggedin)
 
 
 @app.route('/processproject', methods=['POST', 'GET'])

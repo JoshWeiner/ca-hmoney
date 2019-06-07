@@ -158,8 +158,16 @@ def hello():
         posts.append(u.__dict__)
         posts[i]['img'] = "https://cdn1.medicalnewstoday.com/content/images/articles/322/322868/golden-retriever-puppy.jpg"
         i += 1
-    print(posts)
-    return render_template("home.html", feed=posts, users=users)
+    print(session)
+    loggedin = False
+    try:
+        if session['user_id'] is None:
+            loggedin = False
+        elif (session['user_id'] is not None and session['user_id'] is not 0):
+            loggedin = True
+    except:
+        loggedin =False
+    return render_template("home.html", feed=posts, users=users, loggedin=loggedin)
 
 
 @app.route("/project", methods=["GET"])
@@ -169,22 +177,60 @@ def project():
     proj['img'] = "https://cdn1.medicalnewstoday.com/content/images/articles/322/322868/golden-retriever-puppy.jpg"
     #user = db.session.query(User).filter_by(id=proj['user_id']).first().__dict__
     user = proj['user_id']
-    return render_template("project.html", proj=proj, user=user)
+    loggedin = False
+    try:
+        if session['user_id'] is None:
+            loggedin = False
+        elif (session['user_id'] is not None and session['user_id'] is not 0):
+            loggedin = True
+    except:
+        loggedin =False
+    return render_template("project.html", proj=proj, user=user, loggedin=loggedin)
 
+@app.route("/logout")
+def logout():
+    session['user_id'] = 0
+    # session['user_id'] = 0
+    flash("Successfully logged out!")
+    return redirect("/home")
 
 @app.route("/projects")
 def projects():
-    return render_template("projects.html")
+    loggedin = False
+    try:
+        if session['user_id'] is None:
+            loggedin = False
+        elif (session['user_id'] is not None and session['user_id'] is not 0):
+            loggedin = True
+    except:
+        loggedin =False
+    return render_template("projects.html", loggedin = loggedin)
 
 
 @app.route("/students")
 def students():
-    return render_template("students.html")
+    loggedin = False
+    try:
+        if session['user_id'] is None:
+            loggedin = False
+        elif (session['user_id'] is not None and session['user_id'] is not 0):
+            loggedin = True
+    except:
+        loggedin =False
+    return render_template("students.html", loggedin=loggedin)
 
 
 @app.route("/schools")
 def schols():
-    return render_template("schools.html")
+    loggedin = False
+    try:
+        if session['user_id'] is None:
+            loggedin = False
+        elif (session['user_id'] is not None and session['user_id'] is not 0):
+            loggedin = True
+    except:
+        loggedin =False
+    return render_template("schools.html", loggedin=loggedin)
 
 
 @app.route("/signup")
@@ -193,26 +239,37 @@ def poo():
     # get list of school names
     # get list of school ids
     # jinja render a dropdown for users to select school
-    return render_template("signup.html")
+    loggedin = False
+    try:
+        if session['user_id'] is None:
+            loggedin = False
+        elif (session['user_id'] is not None and session['user_id'] is not 0):
+            loggedin = True
+    except:
+        loggedin =False
+    if loggedin:
+        flash("You must be logged out to access this page!")
+        return redirect("/home")
+    else:
+        return render_template("signup.html", loggedin=loggedin)
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
-    if request.method == "POST":
-        givenemail = request.form.get('email')
-        username = request.form.get('email')
-        pass1 = request.form.get('pass')
-        exists = User.query.filter_by(email=givenemail).first()
-        # print(User.query.all())
-        if exists is not None:
-            if pass1 == exists.password:
-                session["user_id"] = exists.id
-                return redirect("/home")
-            else:
-                flash("Username or password is incorrect.")
-                return redirect("/login")
-        else:
-            exists = User.query.filter_by(username=username).first()
-            # print(exists)
+    loggedin = False
+    try:
+        if session['user_id'] is None:
+            loggedin = False
+        elif (session['user_id'] is not None and session['user_id'] is not 0):
+            loggedin = True
+    except:
+        loggedin =False
+    if not loggedin:
+        if request.method == "POST":
+            givenemail = request.form.get('email')
+            username = request.form.get('email')
+            pass1 = request.form.get('pass')
+            exists = User.query.filter_by(email=givenemail).first()
+            # print(User.query.all())
             if exists is not None:
                 if pass1 == exists.password:
                     session["user_id"] = exists.id
@@ -221,54 +278,91 @@ def login():
                     flash("Username or password is incorrect.")
                     return redirect("/login")
             else:
-                flash("Username or password is incorrect.")
-                return redirect("/login")
-    return render_template("login.html")
+                exists = User.query.filter_by(username=username).first()
+                # print(exists)
+                if exists is not None:
+                    if pass1 == exists.password:
+                        session["user_id"] = exists.id
+                        return redirect("/home")
+                    else:
+                        flash("Username or password is incorrect.")
+                        return redirect("/login")
+                else:
+                    flash("Username or password is incorrect.")
+                    return redirect("/login")
+        return render_template("login.html", loggedin = loggedin)
+    else:
+        flash("You must be logged out to access this page!")
+        return redirect("/home")
 
 @app.route("/sign", methods=["GET", "POST"])
 def makenewUser():
+    loggedin = False
+    try:
+        if session['user_id'] is None:
+            loggedin = False
+        elif (session['user_id'] is not None and session['user_id'] is not 0):
+            loggedin = True
+    except:
+        loggedin =False
     # Sign UP
     # print("making user!!")
-    if request.method == 'POST':
-        # if email in database:
-            #flash("you already have an account")
-            # redirect('/')
-        username = str(request.form.get('username'))
-        email = str(request.form.get('email'))
-        pass1 = str(request.form.get('pass1'))
-        pass2 = str(request.form.get('pass2'))
-        fname = str(request.form.get('Fname'))
-        lname = str(request.form.get('Lname'))
-        usert = int(request.form.get('usertype'))
-        register_failed = False
-        # school = request.form['school']
-        # print(User.query.filter_by(email=email).first())
-        if (pass1 != pass2):
-            flash("Passwords do not match.")
-            register_failed = True
-        if (User.query.filter_by(email=email).first() is not None):
-            flash("This email was already registered with another user.")
-            register_failed = True
-        if (User.query.filter_by(username=username).first() is not None):
-            flash("Username already taken")
-            register_failed = True
-        if (register_failed):
-            return redirect("/sign")
-        else:
-            user = User(username=username, email=email, password=pass1, firstname=fname, lastname=lname, userType=usert, verified=False)
-            # pprint(user)
-            db.session.add(user)
-            db.session.commit()
-            return redirect("/login")
-        #You do not need to specfy ID, SQL automatically generates one
-        #user = User(username=username, email=email, password=pass1, firstname=fname, lastname=lname, userType=usert, verified=False)
-        #session['userid'] = id
-    return render_template("signup.html")
+    if not loggedin:
+        if request.method == 'POST':
+            # if email in database:
+                #flash("you already have an account")
+                # redirect('/')
+            username = str(request.form.get('username'))
+            email = str(request.form.get('email'))
+            pass1 = str(request.form.get('pass1'))
+            pass2 = str(request.form.get('pass2'))
+            fname = str(request.form.get('Fname'))
+            lname = str(request.form.get('Lname'))
+            usert = int(request.form.get('usertype'))
+            register_failed = False
+            # school = request.form['school']
+            # print(User.query.filter_by(email=email).first())
+            if (pass1 != pass2):
+                flash("Passwords do not match.")
+                register_failed = True
+            if (User.query.filter_by(email=email).first() is not None):
+                flash("This email was already registered with another user.")
+                register_failed = True
+            if (User.query.filter_by(username=username).first() is not None):
+                flash("Username already taken")
+                register_failed = True
+            if (register_failed):
+                return redirect("/sign")
+            else:
+                user = User(username=username, email=email, password=pass1, firstname=fname, lastname=lname, userType=usert, verified=False)
+                # pprint(user)
+                db.session.add(user)
+                db.session.commit()
+                return redirect("/login")
+            #You do not need to specfy ID, SQL automatically generates one
+            #user = User(username=username, email=email, password=pass1, firstname=fname, lastname=lname, userType=usert, verified=False)
+            #session['userid'] = id
+        return render_template("signup.html", loggedin=loggedin)
+    else:
+        flash("You must be logged out to access this page!")
+        return redirect("/home")
 
 
 @app.route('/makeproject')
 def makeprojectpage():
-    return render_template("makeproject.html")
+    loggedin = False
+    try:
+        if session['user_id'] is None:
+            loggedin = False
+        elif (session['user_id'] is not None and session['user_id'] is not 0):
+            loggedin = True
+    except:
+        loggedin =False
+    if not loggedin:
+        flash("You must be logged in to access this page!")
+        return redirect("/login")
+    else:
+        return render_template("makeproject.html")
 
 
 @app.route('/processproject', methods=['POST', 'GET'])

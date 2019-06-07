@@ -149,7 +149,7 @@
 <script>
     {% for user in users %}
 
-    window.onload = setInterval (refresh_messages, 4000, {{user.id}}, {{u.id}});
+    window.onload = setInterval (refresh_messages, 1000, {{user.id}}, {{u.id}});
 
     {% endfor %}
 

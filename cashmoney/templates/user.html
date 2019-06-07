@@ -1,0 +1,47 @@
+{%extends 'base.html'%}
+
+
+
+{%block body%}
+
+<div class = "row justify-content-center" id = "feed" style = "margin-top:100px">
+
+  {% for post in feed %}
+
+  <a href="/project?id={{post['id']}}" style = "color:black; text-decoration:none">
+
+  <div class = "card" style="width: 15rem; margin: 20px" >
+    <img class = "card-img-top" src = {{post['img']}}></img>
+    <div class = "card-body">
+      <h4 class = "card-title"> {{post['title']}} </h4>
+
+      {% for user in users %}
+
+        {% if user['id'] == post['userid']%}
+
+          <h6 class="card-subtitle mb-2 text-muted">user['school']</h6>
+
+          <a href = "/user?user={{post['userid']}}"><h6 class="card-subtitle mb-2 text-muted">{{user['name']}}</h6></a>
+
+        {% endif %}
+
+      {% endfor %}
+
+      <p class = "card-text">{{post['description']}}</p>
+      <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      <div class="progress">
+	      {% set size = "width: " + (post['current_amount'] / post['goal'])|string + "%" %}
+	      <div class="progress-bar bg-success" role="progressbar" style={{size}} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"> {{post['current_amount']}} </div>
+	      <div style="color: black">
+      		{{post['goal']}}
+	      </div>
+      </div>
+    </div>
+  </div>
+
+</a>
+  {%endfor%}
+
+</div>
+
+{%endblock%}

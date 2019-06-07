@@ -13,7 +13,7 @@ import os
 from datetime import datetime
 import urllib  # for urlopen, urlretrieve
 import os      # for chdir, makedirs, path.exists
-from flask import render_template, flash, redirect, url_for, request, current_app, abort, jsonify, request
+from flask import render_template, flash, redirect, url_for, request, current_app, abort, jsonify, request, session
 from jinja2 import TemplateNotFound
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
@@ -133,14 +133,16 @@ for i in range(0,5):
     user['school'] = "Doggo University School of Boops"
     users.append(user)
 
-
 @app.route('/')
 def tohome():
     return redirect('/home')
 
 @app.route("/home")
 def hello():
-    print ("hello there")
+    try:
+        print ("hello there, user number " + session['user_id'])
+    except:
+        print('hello there, user without identification')
     i = 0
     posts = []
     for u in db.session.query(Project).all():
@@ -150,18 +152,6 @@ def hello():
         posts[i]['img'] = "https://cdn1.medicalnewstoday.com/content/images/articles/322/322868/golden-retriever-puppy.jpg"
         i += 1
     print(posts)
-    '''
-    posts = []
-    for i in range(0,10):
-        project = {}
-        project['title'] = "doggo ipsum"
-        #project['img'] = "https://img.buzzfeed.com/buzzfeed-static/static/2017-03/21/7/asset/buzzfeed-prod-fastlane-02/sub-buzz-668-1490096330-22.jpg?downsize=700%3A%2A&output-quality=auto&output-format=auto"
-        project['img'] = "https://cdn1.medicalnewstoday.com/content/images/articles/322/322868/golden-retriever-puppy.jpg"
-        project['description'] = "Doggo ipsum he made many woofs shoob yapper, you are doing me a frighten. I am bekom fat blep doggo very taste wow boof, I am bekom fat waggy wags clouds ur givin me a spook porgo, heckin angery woofer doing me a frighten you are doin me a concern."
-        project['id'] = i
-        posts.append(project)
-        #print(posts)
-        '''
     return render_template("home.html", feed = posts, users = users)
 
 @app.route("/project", methods = ["GET"])
@@ -204,9 +194,10 @@ def checkitout():
     pass1 = request.form.get('pass')
     exists = db.session.query(User.id).filter_by(email=givenemail).scalar() is not None
     if exists:
-        query = db.session.query(User.id).filter_by(email=givenemail, password=pass1).scalar() is not None
-        if query:
-            #session['userid'] = id
+        query = db.session.query(User.id).filter_by(email=givenemail, password=pass1).scalar()
+        if query is not None:
+            print(query)
+            session['userid'] = query
             print('YOU ARE LOGGED IN!!!')
         else:
             flash('bad pass!')
@@ -248,6 +239,9 @@ def makenewUser():
                 user = User(username=username, email=email, password=pass1, firstname=fname, lastname=lname, userType=usert, verified=False)
                 db.session.add(user)
                 db.session.commit()
+                id = db.session.query(User.id).filter_by(email=email).first()[0]
+                print(id)
+                session['user_id'] = id
             except:
                 flash("email already exists!")
                 print('did not work')
@@ -274,6 +268,18 @@ def processproject():
     db.session.add(project)
     db.session.commit()
     return redirect('/')
+
+@app.route('/user/<id>')
+def userpage(id):
+    user = db.session.query(User).filter_by(id=id).first().__dict__
+    for u in db.session.query(Project).all():
+        if i > 10:
+            break
+        posts.append(u.__dict__)
+        posts[i]['img'] = "https://cdn1.medicalnewstoday.com/content/images/articles/322/322868/golden-retriever-puppy.jpg"
+        i += 1
+    print(posts)
+    return render_template('user.html', user=user, posts=posts)
 
 if __name__ == "__main__":
     app.debug = True

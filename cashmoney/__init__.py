@@ -20,6 +20,7 @@ from werkzeug.utils import secure_filename
 from functools import wraps
 from sqlalchemy import func
 import uuid
+from threading import Thread
 #from package.models import User
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -445,6 +446,11 @@ def get_user_by_id():
         "lastname": user.lastname
     })
 
+def add_async_message(app, msg):
+    with app.app_context():
+        db.session.add(msg)
+        db.session.commit()
+
 @app.route("/send_message", methods=["POST"])
 def send_message():
     to_id = request.form['to_id']
@@ -453,7 +459,7 @@ def send_message():
     is_sender = True
     if to_id != session["user_id"]:
         is_sender = False
-    m = Message(user_id=from_id, is_sender=is_sender, other_id=to_id, time=datetime.now(), body=msg)
+    Thread(target=add_async_message, args=(app, Message(user_id=from_id, is_sender=is_sender, other_id=to_id, time=datetime.now(), body=msg))).start()
     db.session.add(m)
     db.session.commit()
     return "True"

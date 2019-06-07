@@ -207,6 +207,16 @@ def projects():
     return render_template("projects.html", loggedin = loggedin)
 
 
+@app.route('/myuser')
+def displayperson():
+    if session['user_id'] is None:
+        #not logged in
+        flash('You are NOT logged in.')
+    else:
+        x = session['user_id']
+        return redirect('/user/' + str(x))
+
+
 @app.route("/students")
 def students():
     loggedin = False

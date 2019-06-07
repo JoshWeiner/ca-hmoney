@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
   <meta charset="utf-8">
   <link rel="shortcut icon" href="{{url_for('static', filename='logo.png')}}">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <link href="../static/cat.css" rel="stylesheet">
   {% block head %}
   {% endblock %}
   <title> {% block title %} {% endblock %} | EduEngine </title>
@@ -12,42 +14,27 @@
 
 <body>
   {% block header %}
-
-  <div class = "row justify-content-center" style = "background-color: #a6b1e1">
-
-    <ul class="nav justify-content-center align-items-center">
-      <a href = '/home'><img src="{{url_for('static', filename='minilogo.png')}}" height="40" width="40"></a>
-
-      <li class="nav-item">
-        <a  style = "color:black" href = "/home"> EduEngine </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/projects">Projects By Category</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/students">Students</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/schools">Schools</a>
-      </li>
-      <button class = "btn-sm align-items-center">
-        <a class="nav-link" href="/login">Login</a>
-      </button>
-      <button class = "btn-sm align-items-center">
-        <a class="nav-link" href="/signup">Sign Up</a>
-      </button>
-    </ul>
-
-  </div>
+  <!--<div class = "row justify-content-center" style = "background-color: #B6D6CC">-->
+  <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+    <div>
+      <a href='/home'><img src="{{url_for('static', filename='minilogo.png')}}" height="40" width="40"></a>
+      EduEngine
+    </div>
+    <a class="nav-link" href="/projects">Projects By Category</a>
+    <a class="nav-link" href="/students">Students</a>
+    <a class="nav-link" href="/schools">Schools</a>
+    <a class="nav-link" href="/login">Login</a>
+    <a class="nav-link" href="/signup">Sign Up</a>
+  </nav>
   {%endblock%}
   {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <center>
-      {% for message in messages %}
-        {{ message }}
-      {% endfor %}
-    </center>
-    {% endif %}
+  {% if messages %}
+  <center>
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+  </center>
+  {% endif %}
   {% endwith %}
 
 
@@ -55,7 +42,7 @@
   {% endblock %}
 
   {% block footer%}
-  <footer class = "position-sticky" style="text-align:center; position:fixed">
+  <footer class="position-sticky" style="text-align:center; position:fixed">
     <img src="{{url_for('static', filename='minilogo.png')}}" height="40" width="40">
     &copy;ca$hmoney 2019
   </footer>

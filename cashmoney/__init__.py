@@ -174,7 +174,7 @@ def hello():
 @app.route("/project", methods=["GET"])
 def project():
     id = request.args["id"]
-    proj = Project.query.filter_by(id=id).first()
+    proj = Project.query.filter_by(id=id).first().__dict__
     proj['img'] = "https://cdn1.medicalnewstoday.com/content/images/articles/322/322868/golden-retriever-puppy.jpg"
     #user = db.session.query(User).filter_by(id=proj['user_id']).first().__dict__
     user = proj['user_id']

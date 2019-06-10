@@ -394,14 +394,17 @@ def userpage(id):
     user = User.query.filter_by(id=id).first()
     i = 0
     posts = []
-    for u in Project.query.all():
+    for u in Project.query.filter_by(user_id=id):
         if i > 10:
             break
         posts.append(u.__dict__)
         posts[i]['img'] = "https://cdn1.medicalnewstoday.com/content/images/articles/322/322868/golden-retriever-puppy.jpg"
         i += 1
     print(posts)
-    return render_template('user.html', user=user, posts=posts)
+    print(id)
+    print(user.id)
+    owner = id == session['user_id']
+    return render_template('user.html', user=user, posts=posts, owner=owner)
 
 @app.route('/chat', methods=['POST', 'GET'])
 def chat():

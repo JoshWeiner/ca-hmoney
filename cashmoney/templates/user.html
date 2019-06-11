@@ -3,13 +3,36 @@
 
 
 {%block body%}
-
+<center>
 <h1> {{user['Username']}} </h1>
-<h2> {{user['firstname']}} {{user['lastname']}} </h2>
+<h2> Welcome, {{user['firstname']}} {{user['lastname']}} !</h2>
+</center>
 
-<div class = "row justify-content-center" id = "feed" style = "margin-top:100px">
+{% if owner %}
+<div class = 'container'>
+<div class = "row justify-content-center" id = "feed" style = "margin-top:50px">
+  <div class = 'col-md-3'>
+    </div>
+  <div class = 'col-md-3'>
+    <center>
+      <a href = "/makeproject">
+    <button type="button" class="btn btn-outline-success" href = "/makeproject">Make a New Project</button>
+    </a>
+    </center>
+  </div>
+<div class = 'col-md-3'>
+  <center>
+      <button type="button" class="btn btn-outline-primary">Update your Profile</button>
+      </center>
+  </div>
+  <div class = 'col-md-3'>
+    </div>
+</div>
+</div>
+{% endif %}
+<div class = "row justify-content-center" id = "feed" style = "margin-top:50px">
 
-  {% for post in feed %}
+  {% for post in posts %}
 
   <a href="/project?id={{post['id']}}" style = "color:black; text-decoration:none">
 

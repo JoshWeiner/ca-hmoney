@@ -174,7 +174,7 @@ def hello():
 @app.route("/project", methods=["GET"])
 def project():
     id = request.args["id"]
-    proj = Project.query.filter_by(id=id).first()
+    proj = Project.query.filter_by(id=id).first().__dict__
     proj['img'] = "https://cdn1.medicalnewstoday.com/content/images/articles/322/322868/golden-retriever-puppy.jpg"
     #user = db.session.query(User).filter_by(id=proj['user_id']).first().__dict__
     user = proj['user_id']
@@ -383,7 +383,7 @@ def processproject():
     goal = request.form.get('goal')
     # add userid and schoolid once sessions get back
     project = Project(title=title, description=description,
-                      goal=goal, current_amount=0.0)
+                      goal=goal, current_amount=0.0, user_id=session['user_id'])
     db.session.add(project)
     db.session.commit()
     return redirect('/')
@@ -394,14 +394,17 @@ def userpage(id):
     user = User.query.filter_by(id=id).first()
     i = 0
     posts = []
-    for u in Project.query.all():
+    for u in Project.query.filter_by(user_id=id):
         if i > 10:
             break
         posts.append(u.__dict__)
         posts[i]['img'] = "https://cdn1.medicalnewstoday.com/content/images/articles/322/322868/golden-retriever-puppy.jpg"
         i += 1
     print(posts)
-    return render_template('user.html', user=user, posts=posts)
+    print(id)
+    print(user.id)
+    owner = id == session['user_id']
+    return render_template('user.html', user=user, posts=posts, owner=owner)
 
 @app.route('/chat', methods=['POST', 'GET'])
 def chat():

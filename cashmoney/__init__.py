@@ -446,9 +446,10 @@ def get_user_by_id():
         "lastname": user.lastname
     })
 
-def add_async_message(app, msg):
+def add_async_message(app, to_id, from_id, msg, is_sender):
     with app.app_context():
-        db.session.add(msg)
+        m = Message(user_id=from_id, is_sender=is_sender, other_id=to_id, time=datetime.now(), body=msg)
+        db.session.add(m)
         db.session.commit()
 
 @app.route("/send_message", methods=["POST"])
@@ -459,9 +460,7 @@ def send_message():
     is_sender = True
     if to_id != session["user_id"]:
         is_sender = False
-    Thread(target=add_async_message, args=(app, Message(user_id=from_id, is_sender=is_sender, other_id=to_id, time=datetime.now(), body=msg))).start()
-    db.session.add(m)
-    db.session.commit()
+    Thread(target=add_async_message, args=(app, to_id, from_id, msg, is_sender)).start()
     return "True"
 
 @app.route("/retrieve_messages", methods=["POST"])

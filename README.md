@@ -1,7 +1,7 @@
 # Team ca-hmoney
 It's actually ca$hmoney.
 
-[Watch our video demo here](https://www.youtube.com/watch?v=DXUAyRRkI6k)
+[Watch our video demo here](https://www.youtube.com/watch?v=zxRvoxOktlU)
 
 ---
 

@@ -44,11 +44,11 @@ Install and run on localhost
 
 0. Clone this repo
 ```
-$ git clone https://github.com/JoshWeiner/ca-hmoney
+$ git clone https://github.com/JoshWeiner/ca-hmoney eduengine
 ```
 1. Enter the repository
 ```
-$ cd ca-hmoney
+$ cd eduengine
 ```
 
 2. Create and activate your virtual environment
@@ -62,9 +62,9 @@ $ . venv/bin/activate
 $ pip install -r requirements.txt
 ```
 
-4. Enter the sub-directory cashmoney
+4. Enter the sub-directory eduengine
 ```
-$ cd cashmoney
+$ cd eduengine
 ```
 
 5. Initialize the database and migrations folder (where the log of changes to the database is stored)
@@ -101,23 +101,23 @@ Install and run on Apache2
 ```
  $ sudo apt install apache2
  ```
- 
+
 3. Clone this repository into your root directory
 
 ```
-$ git clone https://github.com/JoshWeiner/ca-hmoney.git
+$ git clone https://github.com/JoshWeiner/ca-hmoney.git eduengine
 ```
 
 4. Installing pip3 dependencies
 
 ```
-$ sudo pip3 install -r cashmoney/requirements.txt
+$ sudo pip3 install -r eduengine/requirements.txt
 ```
 
 5. Move the project folder into /var/www
 
 ```
-$ sudo mv cashmoney /var/www/cashmoney
+$ sudo mv eduengine /var/www/eduengine
 ```
 
 6. Input your droplet IP in the .conf file where it says server adress

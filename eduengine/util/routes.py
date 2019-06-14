@@ -7,12 +7,12 @@ from flask import render_template, flash, redirect, url_for, request, current_ap
 from jinja2 import TemplateNotFound
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
-from cashmoney import app, db
-from cashmoney.models import User, Project, Transaction, Message, School
+from eduengine import app, db
+from eduengine.models import User, Project, Transaction, Message, School
 from functools import wraps
 from sqlalchemy import func
 import uuid
-from cashmoney import routes, models
+from eduengine import routes, models
 
 route_code = str(uuid.uuid4())
 # print(route_code)

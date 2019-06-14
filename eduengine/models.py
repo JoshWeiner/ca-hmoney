@@ -1,5 +1,5 @@
 try:
-    from cashmoney import db
+    from eduengine import db
 except:
     from __init__ import db
 

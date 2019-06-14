@@ -124,6 +124,10 @@ $ sudo mv eduengine /var/www/eduengine
 
 7. Put the given .conf file in /etc/apache2/sites-available
 
+```
+$ sudo mv /var/www/eduengine/eduengine.conf /etc/apache2/sites-available
+```
+
 8. Enable apache2 and wsgi module
 
 9. Reload and restart apache2

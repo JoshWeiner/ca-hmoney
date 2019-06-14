@@ -97,41 +97,92 @@ Install and run on Apache2
 1. Make sure the droplet is running in ubuntu v18.04 x64
 
 2. Install apache2
-
 ```
- $ sudo apt install apache2
- ```
+$ sudo apt install apache2
+```
+ 
+3. Navigate to the /var/www directory
+```
+$ cd /var/www
+```
 
-3. Clone this repository into your root directory
-
+4. Clone this repository into your root directory with the directory name given as "eduengine"
 ```
 $ git clone https://github.com/JoshWeiner/ca-hmoney.git eduengine
 ```
 
-4. Installing pip3 dependencies
-
+5. Navigate into the project repository
 ```
-$ sudo pip3 install -r eduengine/requirements.txt
-```
-
-5. Move the project folder into /var/www
-
-```
-$ sudo mv eduengine /var/www/eduengine
+$ cd ./eduengine
 ```
 
-6. Input your droplet IP in the .conf file where it says server adress
-
-7. Put the given .conf file in /etc/apache2/sites-available
-
+6. Put .conf file in web serving config folder. Make sure to edit the 'ServerName' within the file to reflect your desired IP address (default is eduengine.stuysu.org)
 ```
-$ sudo mv /var/www/eduengine/eduengine.conf /etc/apache2/sites-available
+$ sudo cp eduengine.conf /etc/apache2/sites-available
 ```
 
-8. Enable apache2 and wsgi module
-
-9. Reload and restart apache2
+7. Navigate into the project subdirectory
 ```
+$ cd ./eduengine
+```
+*Note: you should now be in /var/www/eduengine/eduengine. PWD to confirm*
+
+8. Create a virtual environment in this folder. This is necessary for the creation and interaction of SQLAlchemy with the database in the project.
+```
+$ python3 -m venv venv
+```
+
+9. Activate the virtual environment
+```
+$ . venv/bin/activate
+```
+
+10. Upgrade pip
+```
+(venv)$ pip install --upgrade pip
+```
+
+11. Install project dependencies. You should currently be within the eduengine directory within the eduengine repository.
+```
+(venv)$ pip3 install -r ../requirements.txt 
+```
+
+12. Initialize the database and migrations folder – to facilitation the insertion or removal of any future database changes
+```
+(venv)$ flask db init
+(venv)$ flask db migrate -m "database creation script"
+(venv)$ flask db upgrade
+```
+
+13. Deactivate the virtual environment
+```
+(venv)$ deactivate
+```
+
+14. Naviate out of the project to the enclosing folder (var/www) – command should be ```$ cd ../..``` if you have been following deployment instructions exactly.
+```
+$ cd ../..
+```
+
+15. Assign appropriate permissions to the project
+```
+$ sudo chgrp -R www-data eduengine/
+$ sudo chmod -R g+w eduengine/
+```
+
+16. Enable Apache2
+```
+$ sudo a2ensite eduengine
+```
+
+17. Enable WSGI
+```
+$ sudo a2enmod wsgi
+```
+
+18. Reload and restart Apache
+```
+$ systemctl reload apache2
 $ sudo service apache2 reload
 $ sudo service apache2 restart
 ```
